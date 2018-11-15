@@ -39,6 +39,9 @@ abstract type AbstractLattice{
         }
     } end
 
+# export the type
+export AbstractLattice
+
 
 
 

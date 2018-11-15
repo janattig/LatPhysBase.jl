@@ -27,6 +27,9 @@ abstract type AbstractUnitcell{
         B <: AbstractBond{LB,N} where {LB,N}
     } end
 
+# export the type
+export AbstractUnitcell
+
 
 
 
