@@ -24,6 +24,8 @@
 ################################################################################
 abstract type AbstractBond{L,N} end
 
+# export the type
+export AbstractBond
 
 
 
@@ -50,6 +52,9 @@ function newBond(
             " and wrap length " * string(N)   )
 end
 
+# export the from newBond interface
+export newBond
+
 
 
 
@@ -73,6 +78,10 @@ function from!(
     error("not implemented interface function 'from!' for bond type " * string(typeof(b)))
 end
 
+# export the from index interface
+export from, from!
+
+
 
 # get to index / UID (Int64)
 function to(
@@ -91,6 +100,9 @@ function to!(
     # print an error because implementation for concrete type is missing
     error("not implemented interface function 'to!' for bond type " * string(typeof(b)))
 end
+
+# export the to index interface
+export to, to!
 
 
 
@@ -114,6 +126,9 @@ function label!(
     error("not implemented interface function 'label!' for bond type " * string(typeof(b)))
 end
 
+# export the label interface
+export label, label!
+
 
 
 # get wrap
@@ -134,7 +149,8 @@ function wrap!(
     error("not implemented interface function 'wrap!' for bond type " * string(typeof(b)))
 end
 
-
+# export the wrap interface
+export wrap, wrap!
 
 
 
@@ -174,6 +190,9 @@ function similar(
     return b_new
 end
 
+# export the similar interface
+export similar
+
 
 
 # ADDITIONAL FANCY SYNTAX
@@ -194,6 +213,9 @@ function isPeriodic(
     # it is not periodic if there is no non-zero wrap
     return false
 end
+
+# export the isPeriodic interface
+export isPeriodic
 
 
 
@@ -238,3 +260,6 @@ function testInterface(
 	# return true to indicate the test passed
 	return true
 end
+
+# export the test functions
+export testInterface
