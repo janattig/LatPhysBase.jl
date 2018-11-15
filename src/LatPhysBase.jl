@@ -1,6 +1,6 @@
 ################################################################################
 #
-#   module LatticePhysics_Base
+#   module LatPhysBase
 #
 #   --> ABSTRACT TYPE DEFINITION
 #           - AbstractSite{L,D}
