@@ -6,7 +6,7 @@ Base module of [`LatticePhysics.jl`](http://gitsrv.thp.uni-koeln.de/attig/Lattic
 
 ## Contents
 
-See the [wiki pages](http://gitsrv.thp.uni-koeln.de/attig/LatticePhysics.jl/wikis/home).
+still TODO ...
 
 
 ## Installation (usage only):
