@@ -43,6 +43,13 @@ module LatPhysBase
 
 
 
+# import functions from Base to be overwritten
+import Base.show
+import Base.similar
+
+
+
+
 
 # ABSTRACT TYPES INCLUDING INTERFACE DEFINITION
 
