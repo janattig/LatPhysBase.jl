@@ -32,6 +32,9 @@ mutable struct Site{L,D} <: AbstractSite{L,D}
 
 end
 
+# export the concrete type
+export Site
+
 
 
 

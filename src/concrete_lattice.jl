@@ -46,6 +46,9 @@ mutable struct Lattice{S,B,U} <: AbstractLattice{S,B,U}
 
 end
 
+# export the concrete type
+export Lattice
+
 
 
 

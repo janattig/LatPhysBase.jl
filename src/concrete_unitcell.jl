@@ -35,6 +35,9 @@ mutable struct Unitcell{S,B} <: AbstractUnitcell{S,B}
 
 end
 
+# export the concrete type
+export Unitcell
+
 
 
 

@@ -36,6 +36,9 @@ mutable struct Bond{L,N} <: AbstractBond{L,N}
 
 end
 
+# export the concrete type
+export Bond
+
 
 
 
