@@ -68,6 +68,9 @@ function newLattice(
             " and site type " * string(S)   )
 end
 
+# export the newLattice interface
+export newLattice
+
 
 
 
@@ -88,6 +91,11 @@ function latticeVectors!(
     # print an error because implementation for concrete type is missing
     error(  "not implemented function 'latticeVectors!' for concrete lattice type " * string(L) )
 end
+
+# export the latticeVectors interface
+export latticeVectors, latticeVectors!
+
+
 
 
 # accessing a list of sites
@@ -110,6 +118,11 @@ function sites!(
             string(L) * " with site type " * string(S)   )
 end
 
+# export the sites interface
+export sites, sites!
+
+
+
 # accessing a list of bonds
 function bonds(
             lattice :: L
@@ -129,6 +142,11 @@ function bonds!(
     error(  "not implemented function 'bonds!' for concrete lattice type " *
             string(L) * " with bond type " * string(B)   )
 end
+
+# export the bonds interface
+export bonds, bonds!
+
+
 
 
 # accessing the unitcell
@@ -150,6 +168,9 @@ function unitcell!(
     error(  "not implemented function 'unitcell!' for concrete lattice type " *
             string(L) * " with unitcell type " * string(U)   )
 end
+
+# export the unitcell interface
+export unitcell, unitcell!
 
 
 
@@ -191,6 +212,9 @@ function similar(
     return l_new
 end
 
+# export the similar interface
+export similar
+
 
 
 
@@ -215,6 +239,10 @@ function numBonds(
     # return length of the bond array that the lattice type implements
     return length(bonds(lattice))
 end
+
+# export the number interfaces
+export numSites, numBonds
+
 
 
 
@@ -241,6 +269,9 @@ function bond(
     # return the respective bond
     return bonds(lattice)[index]
 end
+
+# export the specific site and bond interfaces
+export site, bond
 
 
 
@@ -276,3 +307,6 @@ function a3(
     # return the third entry in the lattice vectors list
     return latticeVectors(lattice)[3]
 end
+
+# export the Bravais lattice interfaces
+export a1, a2, a3
