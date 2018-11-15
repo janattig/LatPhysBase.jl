@@ -1,6 +1,6 @@
 # LatPhysBase.jl
 
-Base module of `LatticePhysics.jl` which contains lattice based calculations and plotting for Julia v.1.0.* .
+Base module of [`LatticePhysics.jl`](http://gitsrv.thp.uni-koeln.de/attig/LatticePhysics.jl). which contains lattice based calculations and plotting for Julia v.1.0.* .
 
 
 
