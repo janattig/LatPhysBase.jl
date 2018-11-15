@@ -55,6 +55,10 @@ function newUnitcell(
             " and site type " * string(S)   )
 end
 
+# export the newUnitcell interface
+export newUnitcell
+
+
 
 
 
@@ -77,6 +81,11 @@ function latticeVectors!(
     error(  "not implemented function 'latticeVectors!' for concrete unitcell type " * string(U) )
 end
 
+# export the latticeVectors interface
+export latticeVectors, latticeVectors!
+
+
+
 
 # accessing a list of sites
 function sites(
@@ -98,6 +107,10 @@ function sites!(
             string(U) * " with site type " * string(S)   )
 end
 
+# export the sites interface
+export sites, sites!
+
+
 
 # accessing a list of bonds
 function bonds(
@@ -118,6 +131,10 @@ function bonds!(
     error(  "not implemented function 'bonds!' for concrete unitcell type " *
             string(U) * " with bond type " * string(B)   )
 end
+
+# export the bonds interface
+export bonds, bonds!
+
 
 
 
@@ -156,6 +173,8 @@ function similar(
     return u_new
 end
 
+# export the similar interface
+export similar
 
 
 
@@ -180,6 +199,9 @@ function numBonds(
     # return length of the bond array that the unitcell type implements
     return length(bonds(unitcell))
 end
+
+# export the number interfaces
+export numSites, numBonds
 
 
 
@@ -206,6 +228,8 @@ function bond(
     return bonds(unitcell)[index]
 end
 
+# export the specific site and bond interfaces
+export site, bond
 
 
 
@@ -239,3 +263,6 @@ function a3(
     # return the third entry in the lattice vectors list
     return latticeVectors(unitcell)[3]
 end
+
+# export the Bravais lattice interfaces
+export a1, a2, a3
