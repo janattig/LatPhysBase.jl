@@ -24,6 +24,8 @@
 ################################################################################
 abstract type AbstractSite{L,D} end
 
+# export the type
+export AbstractSite
 
 
 
@@ -47,6 +49,9 @@ function newSite(
             string(S) * " with label type " * string(L) )
 end
 
+# export the newSite interface
+export newSite
+
 
 
 
@@ -69,6 +74,9 @@ function label!(
     error("not implemented interface function 'label!' for site type " * string(typeof(s)))
 end
 
+# export the label interface
+export label, label!
+
 
 
 # get point
@@ -89,6 +97,8 @@ function point!(
     error("not implemented interface function 'point!' for site type " * string(typeof(s)))
 end
 
+# export the point interface
+export point, point!
 
 
 
@@ -119,6 +129,8 @@ function similar(
     return s_new
 end
 
+# export the similar interface
+export similar
 
 
 
@@ -157,3 +169,6 @@ function testInterface(
 	# return true to indicate the test passed
 	return true
 end
+
+# export the test functions
+export testInterface
