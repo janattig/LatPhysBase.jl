@@ -6,7 +6,11 @@ Base module of [`LatticePhysics.jl`](http://gitsrv.thp.uni-koeln.de/attig/Lattic
 
 ## Contents
 
-still TODO ...
+Provides the abstract and concrete Base types of [`LatticePhysics.jl`](http://gitsrv.thp.uni-koeln.de/attig/LatticePhysics.jl) as well as their interface definitions. These include the following:
+1.  `AbstractBond{L,N}` and `Bond{L,N}`
+2.  `AbstractSite{L,D}` and `Site{L,D}`
+3.  `AbstractUnitcell{S,B}` and `Unitcell{S,B}`
+4.  `AbstractLattice{S,B,U}` and `Lattice{S,B,U}`
 
 
 ## Installation (usage only):
