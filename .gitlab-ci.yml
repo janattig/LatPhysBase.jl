@@ -1,0 +1,9 @@
+stages:
+  - build
+  - pkg_test
+  - own_test
+
+initial_build:
+  script:
+    - julia -e "using LatPhysBase"
+  stage: build
