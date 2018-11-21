@@ -4,14 +4,15 @@
 stages:
   - julia_setup
   - julia_pkg_setup
-  - build
+  - using_pkg
   - pkg_test
   - own_test
-  - cleanup
+  - cleanup_julia
+  - cleanup_final
 
 
 
-
+# The stuff to be executed before every script
 before_script:
   - which julia
   - julia --version
@@ -19,20 +20,70 @@ before_script:
 
 
 
+#---------------------------------------
+#    STAGE: julia_setup
+#    --> add stuff to julia env
+#---------------------------------------
+julia_version_test:
+  script:
+    - julia --version
+  stage: julia_setup
 
-initial_build:
+julia_test:
+  script:
+    - julia -e "println(\"hello World\")"
+  stage: julia_setup
+
+#---------------------------------------
+#    STAGE: julia_pkg_setup
+#    --> add packages to julia env
+#---------------------------------------
+julia_pkg_adding:
+  script:
+    - julia -e "using Pkg; add(\"BenchmarkTools\");"
+  stage: julia_pkg_setup
+
+#---------------------------------------
+#    STAGE: using_pkg
+#    --> tests if "using package" works
+#---------------------------------------
+initial_test:
   script:
     - julia -e "using LatPhysBase"
-  stage: build
+  stage: using_pkg
 
 
+#---------------------------------------
+#    STAGE: pkg_test
+#    --> tests if "test package" works
+#---------------------------------------
 julia_pkg_test:
   script:
     - julia -e "using Pkg; Pkg.test(\"LatPhysBase\")"
   stage: pkg_test
 
 
+#---------------------------------------
+#    STAGE: own_test
+#    --> self defined tests
+#---------------------------------------
+
+
+#---------------------------------------
+#    STAGE: cleanup_julia
+#    --> remove stuff from julia env
+#---------------------------------------
+cleanup_directory:
+  script:
+    - julia -e "using Pkg; rm(\"BenchmarkTools\");"
+  stage: cleanup_julia
+
+#---------------------------------------
+#    STAGE: cleanup_final
+#    --> remove stuff from directory
+#    --> remove stuff from julia env
+#---------------------------------------
 cleanup_directory:
   script:
     - rm -rf *
-  stage: cleanup
+  stage: cleanup_final
