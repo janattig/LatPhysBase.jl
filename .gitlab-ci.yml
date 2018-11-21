@@ -1,14 +1,34 @@
 stages:
+  - julia_setup
   - build
   - pkg_test
   - own_test
+  - cleanup
+
+
+
 
 before_script:
   - which julia
   - julia --version
   - pwd
 
+
+
+
 initial_build:
   script:
     - julia -e "using LatPhysBase"
   stage: build
+
+
+julia_pkg_test:
+  script:
+    - julia -e "using Pkg; Pkg.test(\"LatPhysBase\")"
+  stage: pkg_test
+
+
+cleanup_directory:
+  script:
+    - rm -rf *
+  stage: cleanup
