@@ -1,5 +1,9 @@
+#---------------------------------------
+#    ALL STAGES OF CI / CD SCRIPT
+#---------------------------------------
 stages:
   - julia_setup
+  - julia_pkg_setup
   - build
   - pkg_test
   - own_test
