@@ -38,7 +38,7 @@ julia_test:
 #    STAGE: julia_pkg_setup
 #    --> add packages to julia env
 #---------------------------------------
-julia_pkg_adding:
+julia_env_pkg_adding:
   script:
     - julia -e "using Pkg; add(\"BenchmarkTools\");"
   stage: julia_pkg_setup
@@ -73,7 +73,7 @@ julia_pkg_test:
 #    STAGE: cleanup_julia
 #    --> remove stuff from julia env
 #---------------------------------------
-cleanup_directory:
+julia_env_pkg_removing:
   script:
     - julia -e "using Pkg; rm(\"BenchmarkTools\");"
   stage: cleanup_julia
