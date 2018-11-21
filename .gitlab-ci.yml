@@ -6,6 +6,7 @@ stages:
 before_script:
   - which julia
   - julia --version
+  - pwd
 
 initial_build:
   script:
