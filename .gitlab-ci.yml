@@ -3,7 +3,7 @@
 #---------------------------------------
 stages:
   - setup
-  - julia_pkg_setup
+  - pkg_setup
   - using_pkg
   - pkg_test
   - own_test
@@ -42,7 +42,7 @@ julia_env_pkg_adding:
   script:
     - julia -e "using Pkg; pkg\"add BenchmarkTools\";"
     - julia -e "using Pkg; pkg\"dev ../LatPhysBase.jl\";"
-  stage: julia_pkg_setup
+  stage: pkg_setup
 
 #---------------------------------------
 #    STAGE: using_pkg
