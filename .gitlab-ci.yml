@@ -38,7 +38,7 @@ current_dir_info:
   script:
     - pwd
     - ls -lh
-    - tree .
+    - tree
   stage: setup
 
 #---------------------------------------
