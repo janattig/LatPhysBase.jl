@@ -40,7 +40,7 @@ julia_test:
 #---------------------------------------
 julia_env_pkg_adding:
   script:
-    - julia -e "using Pkg; add(\"BenchmarkTools\");"
+    - julia -e "using Pkg; pkg\"add BenchmarkTools\";"
   stage: julia_pkg_setup
 
 #---------------------------------------
@@ -59,7 +59,7 @@ initial_test:
 #---------------------------------------
 julia_pkg_test:
   script:
-    - julia -e "using Pkg; Pkg.test(\"LatPhysBase\")"
+    - julia -e "using Pkg; pkg\"test LatPhysBase\""
   stage: pkg_test
 
 
@@ -75,7 +75,7 @@ julia_pkg_test:
 #---------------------------------------
 julia_env_pkg_removing:
   script:
-    - julia -e "using Pkg; rm(\"BenchmarkTools\");"
+    - julia -e "using Pkg; pkg\"rm BenchmarkTools\";"
   stage: cleanup_julia
 
 #---------------------------------------
