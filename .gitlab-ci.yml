@@ -12,13 +12,6 @@ stages:
 
 
 
-# The stuff to be executed before every script
-before_script:
-  - which julia
-  - julia --version
-  - pwd
-
-
 
 #---------------------------------------
 #    STAGE: julia_setup
@@ -26,6 +19,7 @@ before_script:
 #---------------------------------------
 julia_version_test:
   script:
+    - which julia
     - julia --version
   stage: setup
 
