@@ -87,5 +87,7 @@ julia_env_pkg_removing:
 #---------------------------------------
 cleanup_directory:
   script:
+    - pwd
     - rm -rf *
+    - ls -lRh
   stage: cleanup_final
