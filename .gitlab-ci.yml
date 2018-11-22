@@ -37,8 +37,7 @@ julia_test:
 current_dir_info:
   script:
     - pwd
-    - ls -lh
-    - tree
+    - ls -lRh
   stage: setup
 
 #---------------------------------------
