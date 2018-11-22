@@ -77,6 +77,7 @@ julia_pkg_test:
 julia_env_pkg_removing:
   script:
     - julia -e "using Pkg; pkg\"rm BenchmarkTools\";"
+    - julia -e "using Pkg; pkg\"rm LatPhysBase\";"
   stage: cleanup_julia
 
 #---------------------------------------
