@@ -1,4 +1,4 @@
-# LatPhysBase.jl
+# LatPhysBase.jl [![pipeline status](http://gitsrv.thp.uni-koeln.de/attig/LatPhysBase.jl/badges/master/pipeline.svg)](http://gitsrv.thp.uni-koeln.de/attig/LatPhysBase.jl/commits/master) [![coverage report](http://gitsrv.thp.uni-koeln.de/attig/LatPhysBase.jl/badges/master/coverage.svg)](http://gitsrv.thp.uni-koeln.de/attig/LatPhysBase.jl/commits/master)
 
 Base module of [`LatticePhysics.jl`](http://gitsrv.thp.uni-koeln.de/attig/LatticePhysics.jl). which contains lattice based calculations and plotting for Julia v.1.0.* .
 
