@@ -2,7 +2,7 @@
 #    ALL STAGES OF CI / CD SCRIPT
 #---------------------------------------
 stages:
-  - julia_setup
+  - setup
   - julia_pkg_setup
   - using_pkg
   - pkg_test
@@ -27,12 +27,19 @@ before_script:
 julia_version_test:
   script:
     - julia --version
-  stage: julia_setup
+  stage: setup
 
 julia_test:
   script:
     - julia -e "println(\"hello World\")"
-  stage: julia_setup
+  stage: setup
+
+current_dir_info:
+  script:
+    - pwd
+    - ls -lh
+    - tree .
+  stage: setup
 
 #---------------------------------------
 #    STAGE: julia_pkg_setup
