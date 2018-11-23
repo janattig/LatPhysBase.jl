@@ -109,5 +109,6 @@ cleanup_directory:
   script:
     - pwd
     - rm -rf *
+    - rm -rf ~/.julia/dev/*
     - ls -lRh
   stage: cleanup_final
