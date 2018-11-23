@@ -11,4 +11,5 @@ using Test
 
     # include subfile for custom type printing tests
     include("tests_custom_printing.jl")
+
 end
