@@ -77,6 +77,10 @@ include("concrete_lattice.jl")
 
 
 
+# DEFAULT LABELS
+include("default_labels.jl")
+
+
 # CUSTOM NICE PRINTING
 include("show.jl")
 
