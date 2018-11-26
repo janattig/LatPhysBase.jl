@@ -50,6 +50,14 @@ function getDefaultLabel(
     # return "1" as a string of that type
     return T(1)
 end
+# Implementation for symbol
+function getDefaultLabel(
+            ::Type{T}
+        ) :: T where {T <: Symbol}
+
+    # return :l as a symbol of that type (short for label)
+    return :l
+end
 
 
 
@@ -115,6 +123,21 @@ function getDefaultLabelB(
     return T(2)
 end
 
+# Implementation for Symbol
+function getDefaultLabelA(
+            ::Type{T}
+        ) :: T where {T <: Symbol}
+
+    # return :A as symbol
+    return :A
+end
+function getDefaultLabelB(
+            ::Type{T}
+        ) :: T where {T <: Symbol}
+
+    # return :B as symbol
+    return :B
+end
 
 
 
@@ -202,6 +225,29 @@ function getDefaultLabelZ(
 end
 
 
+# Implementation for Symbols
+function getDefaultLabelX(
+            ::Type{T}
+        ) :: T where {T <: Symbol}
+
+    # return :x as a symbol
+    return :x
+end
+function getDefaultLabelY(
+            ::Type{T}
+        ) :: T where {T <: Symbol}
+
+    # return :y as a symbol
+    return :y
+end
+function getDefaultLabelZ(
+            ::Type{T}
+        ) :: T where {T <: Symbol}
+
+    # return :z as a symbol
+    return :z
+end
+
 
 
 ################################################################################
@@ -245,4 +291,14 @@ function getDefaultLabelN(
 
     # return the number version of that integer
     return T(n)
+end
+
+# Implementation for Symbols
+function getDefaultLabelN(
+            ::Type{T},
+            n :: I
+        ) :: T where {T<:Symbol, I<:Integer}
+
+    # return :ln as the symbol (l as short for label)
+    return Symbol("l", n)
 end
