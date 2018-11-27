@@ -6,6 +6,9 @@ using Test
     # include subfile for abstract type tests
     include("tests_abstract_types.jl")
 
+    # include subfile for default labels
+    include("tests_default_labels.jl")
+
     # include subfile for concrete type tests
     include("tests_concrete_types.jl")
 
