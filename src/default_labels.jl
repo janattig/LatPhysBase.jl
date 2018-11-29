@@ -22,12 +22,13 @@
 
 # Fallback / Interface
 function getDefaultLabel(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " \n" *
-        "Please provide a function `getDefaultLabel(::Type{" * string(T) * "})` to fix this")
+        "Please provide a function `getDefaultLabel(::Type{" * string(T) * "}, prefix::String=\"\")` to fix this")
 end
 
 # export
@@ -36,15 +37,17 @@ export getDefaultLabel
 
 # Implementation for string
 function getDefaultLabel(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = "1"
         ) :: T where {T <: AbstractString}
 
     # return "1" as a string of that type
-    return T("1")
+    return T(prefix)
 end
 # Implementation for number
 function getDefaultLabel(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Number}
 
     # return "1" as a string of that type
@@ -52,11 +55,12 @@ function getDefaultLabel(
 end
 # Implementation for symbol
 function getDefaultLabel(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = "l"
         ) :: T where {T <: Symbol}
 
     # return :l as a symbol of that type (short for label)
-    return :l
+    return Symbol(prefix)
 end
 
 
@@ -71,20 +75,22 @@ end
 
 # Fallback / Interface
 function getDefaultLabelA(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " \n" *
-        "Please provide a function `getDefaultLabelA(::Type{" * string(T) * "})` to fix this")
+        "Please provide a function `getDefaultLabelA(::Type{" * string(T) * "}, prefix::String=\"\")` to fix this")
 end
 function getDefaultLabelB(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " \n" *
-        "Please provide a function `getDefaultLabelB(::Type{" * string(T) * "})` to fix this")
+        "Please provide a function `getDefaultLabelB(::Type{" * string(T) * "}, prefix::String=\"\")` to fix this")
 end
 
 # export
@@ -93,30 +99,34 @@ export getDefaultLabelA, getDefaultLabelB
 
 # Implementation for string
 function getDefaultLabelA(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: AbstractString}
 
     # return "A" as a string of that type
-    return T("A")
+    return T(prefix * "A")
 end
 function getDefaultLabelB(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: AbstractString}
 
     # return "B" as a string of that type
-    return T("B")
+    return T(prefix * "B")
 end
 
 # Implementation for Numbers
 function getDefaultLabelA(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Number}
 
     # return 1 as a number of that type
     return T(1)
 end
 function getDefaultLabelB(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Number}
 
     # return 2 as a number of that type
@@ -125,18 +135,20 @@ end
 
 # Implementation for Symbol
 function getDefaultLabelA(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Symbol}
 
     # return :A as symbol
-    return :A
+    return Symbol(prefix, "A")
 end
 function getDefaultLabelB(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Symbol}
 
     # return :B as symbol
-    return :B
+    return Symbol(prefix, "B")
 end
 
 
@@ -150,28 +162,31 @@ end
 
 # Fallback / Interface
 function getDefaultLabelX(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " \n" *
-        "Please provide a function `getDefaultLabelX(::Type{" * string(T) * "})` to fix this")
+        "Please provide a function `getDefaultLabelX(::Type{" * string(T) * "}, prefix::String=\"\")` to fix this")
 end
 function getDefaultLabelY(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " \n" *
-        "Please provide a function `getDefaultLabelY(::Type{" * string(T) * "})` to fix this")
+        "Please provide a function `getDefaultLabelY(::Type{" * string(T) * "}, prefix::String=\"\")` to fix this")
 end
 function getDefaultLabelZ(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " \n" *
-        "Please provide a function `getDefaultLabelZ(::Type{" * string(T) * "})` to fix this")
+        "Please provide a function `getDefaultLabelZ(::Type{" * string(T) * "}, prefix::String=\"\")` to fix this")
 end
 
 # export
@@ -180,44 +195,50 @@ export getDefaultLabelX, getDefaultLabelY, getDefaultLabelZ
 
 # Implementation for string
 function getDefaultLabelX(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: AbstractString}
 
     # return "x" as a string of that type
-    return T("x")
+    return T(prefix * "x")
 end
 function getDefaultLabelY(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: AbstractString}
 
     # return "y" as a string of that type
-    return T("y")
+    return T(prefix * "y")
 end
 function getDefaultLabelZ(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: AbstractString}
 
     # return "z" as a string of that type
-    return T("z")
+    return T(prefix * "z")
 end
 
 # Implementation for Numbers
 function getDefaultLabelX(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Number}
 
     # return 1 as a number of that type
     return T(1)
 end
 function getDefaultLabelY(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Number}
 
     # return 2 as a number of that type
     return T(2)
 end
 function getDefaultLabelZ(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Number}
 
     # return 3 as a number of that type
@@ -227,25 +248,28 @@ end
 
 # Implementation for Symbols
 function getDefaultLabelX(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Symbol}
 
     # return :x as a symbol
-    return :x
+    return Symbol(prefix, "x")
 end
 function getDefaultLabelY(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Symbol}
 
     # return :y as a symbol
-    return :y
+    return Symbol(prefix, "y")
 end
 function getDefaultLabelZ(
-            ::Type{T}
+            ::Type{T},
+            prefix :: String = ""
         ) :: T where {T <: Symbol}
 
     # return :z as a symbol
-    return :z
+    return Symbol(prefix, "z")
 end
 
 
@@ -260,12 +284,13 @@ end
 # Fallback / Interface
 function getDefaultLabelN(
             ::Type{T},
-            n :: I
+            n :: I,
+            prefix :: String = ""
         ) :: T where {T, I<:Integer}
 
     # throw error as this is not implemented yet
     error("Not implemented default label for type " * string(T) * " and integer type " * string(I) * " \n" *
-        "Please provide a function `getDefaultLabelN(::Type{" * string(T) * "}, n::" * string(I) * ")` to fix this")
+        "Please provide a function `getDefaultLabelN(::Type{" * string(T) * "}, n::" * string(I) * ",prefix::String=\"\")` to fix this")
 end
 
 # export
@@ -276,17 +301,19 @@ export getDefaultLabelN
 # Implementation for string
 function getDefaultLabelN(
             ::Type{T},
-            n :: I
+            n :: I,
+            prefix :: String = ""
         ) :: T where {T<:String, I<:Integer}
 
     # return the string version of that integer
-    return T(string(n))
+    return T(prefix * string(n))
 end
 
 # Implementation for Numbers
 function getDefaultLabelN(
             ::Type{T},
-            n :: I
+            n :: I,
+            prefix :: String = ""
         ) :: T where {T<:Number, I<:Integer}
 
     # return the number version of that integer
@@ -296,9 +323,10 @@ end
 # Implementation for Symbols
 function getDefaultLabelN(
             ::Type{T},
-            n :: I
+            n :: I,
+            prefix :: String = "l"
         ) :: T where {T<:Symbol, I<:Integer}
 
     # return :ln as the symbol (l as short for label)
-    return Symbol("l", n)
+    return Symbol(prefix, n)
 end
