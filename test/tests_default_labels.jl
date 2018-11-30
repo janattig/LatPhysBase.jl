@@ -65,6 +65,16 @@
         @test_nowarn getDefaultLabelZ(String)
         @test_nowarn getDefaultLabelZ(Symbol)
 
+        # Symbol part with extra prefix
+        @test_nowarn getDefaultLabelX(Symbol, "J")
+        @test_nowarn getDefaultLabelY(Symbol, "J")
+        @test_nowarn getDefaultLabelZ(Symbol, "J")
+
+        # String part with extra prefix
+        @test_nowarn getDefaultLabelX(String, "t")
+        @test_nowarn getDefaultLabelY(String, "t")
+        @test_nowarn getDefaultLabelZ(String, "t")
+
     end
 
 
