@@ -237,6 +237,20 @@ export site, bond
 
 
 
+# get an organized bond list
+function organizedBonds(
+            unitcell :: U
+        ) :: Vector{Vector{B}} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
+
+    # build a new list and return it
+    return Vector{B}[
+        filter(b->from(b)==i, bonds(unitcell)) for i in 1:numSites(unitcell)
+    ]
+end
+
+# export organized bond function
+export organizedBonds
+
 
 # specific Bravais lattices
 
