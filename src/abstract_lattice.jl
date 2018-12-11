@@ -280,8 +280,8 @@ export site, bond
 
 
 
-# get an organized bond list
-function organizedBonds(
+# get an organized bond list (organized by 'from')
+function organizedBondsFrom(
             lattice :: L
         ) :: Vector{Vector{B}} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
 
@@ -290,9 +290,19 @@ function organizedBonds(
         filter(b->from(b)==i, bonds(lattice)) for i in 1:numSites(lattice)
     ]
 end
+# get an organized bond list (organized by 'to')
+function organizedBondsTo(
+            lattice :: L
+        ) :: Vector{Vector{B}} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
+
+    # build a new list and return it
+    return Vector{B}[
+        filter(b->to(b)==i, bonds(lattice)) for i in 1:numSites(lattice)
+    ]
+end
 
 # export organized bond function
-export organizedBonds
+export organizedBondsFrom, organizedBondsTo
 
 
 
