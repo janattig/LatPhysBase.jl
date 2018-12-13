@@ -79,12 +79,12 @@ include("concrete_lattice.jl")
 # HAMILTONIANS
 
 # Abstract type definition
-include("abstract_hamiltonian.jl")
+include("abstract_bond_hamiltonian.jl")
 
 # Concrete Hamiltonian: Heisenberg
-include("concrete_hamiltonian_heisenberg.jl")
+include("concrete_bond_hamiltonian_heisenberg.jl")
 # Concrete Hamiltonian: Kitaev
-include("concrete_hamiltonian_kitaev.jl")
+include("concrete_bond_hamiltonian_kitaev.jl")
 
 
 
