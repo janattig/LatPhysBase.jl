@@ -95,6 +95,43 @@ function getBondLabelsHeisenberg(
     return L[]
 end
 
+# LABEL TYPE String
+function getBondLabelsHeisenberg(
+        N :: Val{1},
+        all_couplings :: Vector{S}
+    ) :: Vector{S} where {S<:AbstractString}
+
+    # all couplings that either have 1 or no number in them
+    return filter(s->occursin('1',s) || sum([isdigit(c) for c in s])::Int64==0, all_couplings)
+end
+function getBondLabelsHeisenberg(
+        N :: Val{NB},
+        all_couplings :: Vector{S}
+    ) :: Vector{S} where {NB,S<:AbstractString}
+
+    # no couplings are further neighbors
+    return filter(s->occursin(s,string(NB)), all_couplings)
+end
+
+# LABEL TYPE Symbol
+function getBondLabelsHeisenberg(
+        N :: Val{1},
+        all_couplings :: Vector{S}
+    ) :: Vector{S} where {NB,S<:Symbol}
+
+    # return the string method
+    return Symbol.(getBondLabelsHeisenberg(Val(1),string.(all_couplings)))
+end
+function getBondLabelsHeisenberg(
+        N :: Val{NB},
+        all_couplings :: Vector{S}
+    ) :: Vector{S} where {NB,S<:Symbol}
+
+    # return the string method
+    return Symbol.(getBondLabelsHeisenberg(Val(NB),string.(all_couplings)))
+end
+
+
 
 # CONSTRUCTION FUNCTION
 function getSpinHamiltonianHeisenberg(
