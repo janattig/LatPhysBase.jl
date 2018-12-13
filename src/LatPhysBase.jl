@@ -76,6 +76,17 @@ include("concrete_unitcell.jl")
 include("concrete_lattice.jl")
 
 
+# HAMILTONIANS
+
+# Abstract type definition
+include("abstract_hamiltonian.jl")
+
+# Concrete Hamiltonian: Heisenberg
+include("concrete_hamiltonian_heisenberg.jl")
+# Concrete Hamiltonian: Kitaev
+include("concrete_hamiltonian_kitaev.jl")
+
+
 
 # DEFAULT LABELS
 include("default_labels.jl")
