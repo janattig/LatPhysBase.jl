@@ -59,6 +59,8 @@ function bondterm(
     error("not implemented interface function 'bondterm' for bond Hamiltonian type " * string(typeof(h)))
 end
 
+export bondterm
+
 
 
 

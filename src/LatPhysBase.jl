@@ -42,6 +42,9 @@
 module LatPhysBase
 
 
+# uses LinearAlgebra
+using LinearAlgebra
+
 
 # import functions from Base to be overwritten
 import Base.show
