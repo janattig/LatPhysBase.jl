@@ -136,3 +136,21 @@ end
 
 # export the construction function
 export getSpinHamiltonianKitaev
+
+
+
+
+
+
+
+
+
+# CUSTOM SHOWING
+
+# all labels
+function show(io::IO, h::H) where {L,H<:BondSpinHamiltonianKitaev{L}}
+    print(io, "Kitaev (Bond) Hamiltonian for nearest neighbors. Couplings strength and accepted labels are:")
+    print(io, "\n--> Jx="*string(h.Jx)*", labels="*string(h.x_bonds))
+    print(io, "\n--> Jy="*string(h.Jy)*", labels="*string(h.y_bonds))
+    print(io, "\n--> Jz="*string(h.Jz)*", labels="*string(h.z_bonds))
+end
