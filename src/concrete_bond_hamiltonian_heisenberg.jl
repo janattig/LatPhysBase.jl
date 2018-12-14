@@ -163,7 +163,7 @@ export getSpinHamiltonianHeisenberg
 
 # all labels
 function show(io::IO, h::H) where {L,N,NS,H<:BondSpinHamiltonianHeisenberg{N,L,NS}}
-    print(io, "Heisenberg (Bond) Hamiltonian up to "*string(N)*" neighbors. Couplings strength and accepted labels are:")
+    print(io, "Heisenberg (Bond) Hamiltonian of O("*string(NS)*") spins up to "*string(N)*" neighbors. Couplings strength and accepted labels are:")
     for i in 1:length(h.J)
         print(io, "\n--> J_"*string(i)*"="*string(h.J[i])*", labels="*string(h.J_bonds[i]))
     end

@@ -49,6 +49,7 @@ using LinearAlgebra
 # import functions from Base to be overwritten
 import Base.show
 import Base.similar
+import Base.+
 
 
 
@@ -88,6 +89,8 @@ include("abstract_bond_hamiltonian.jl")
 include("concrete_bond_hamiltonian_heisenberg.jl")
 # Concrete Hamiltonian: Kitaev
 include("concrete_bond_hamiltonian_kitaev.jl")
+# Concrete Hamiltonian: Sum of two Hamiltonians
+include("concrete_bond_hamiltonian_sum.jl")
 
 
 
