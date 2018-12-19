@@ -242,6 +242,8 @@ function organizedBondsFrom(
             unitcell :: U
         ) :: Vector{Vector{B}} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
 
+    # temporary fix for dispatch behavior: name all types explicitly
+    D,N,LS,LB,U,S,B
     # build a new list and return it
     return Vector{B}[
         filter(b->from(b)==i, bonds(unitcell)) for i in 1:numSites(unitcell)
@@ -252,6 +254,8 @@ function organizedBondsTo(
             unitcell :: U
         ) :: Vector{Vector{B}} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
 
+    # temporary fix for dispatch behavior: name all types explicitly
+    D,N,LS,LB,U,S,B
     # build a new list and return it
     return Vector{B}[
         filter(b->to(b)==i, bonds(unitcell)) for i in 1:numSites(unitcell)
