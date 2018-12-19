@@ -41,6 +41,7 @@ pkg_env_setup:
     - julia -e "using Pkg; pkg\"rm LatPhysBase\";"
     - julia -e "using Pkg; pkg\"rm LatPhysUnitcellLibrary\";"
     - julia -e "using Pkg; pkg\"rm LatPhysLatticeConstruction\";"
+    - julia -e "using Pkg; pkg\"rm LatPhysLatticeModification\";"
     - julia -e "using Pkg; pkg\"rm LatPhysLuttingerTisza\";"
     - julia -e "using Pkg; pkg\"rm LatPhysReciprocal\";"
     - julia -e "using Pkg; pkg\"rm LatPhysPlottingPyPlot\";"
