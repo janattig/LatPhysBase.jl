@@ -287,10 +287,25 @@ function organizedBondsFrom(
 
     # temporary fix for dispatch behavior: name all types explicitly
     D,N,LS,LB,U,S,B,L
-    # build a new list and return it
-    return Vector{B}[
-        filter(b->from(b)==i, bonds(lattice)) for i in 1:numSites(lattice)
-    ]
+    # construct a list of indices
+    indices  = zeros(Int64, numBonds(lattice))
+    list_len = zeros(Int64, numSites(lattice))
+    # give each bond an index
+    for b in 1:numBonds(lattice)
+        list_len[from(bond(lattice,b))] += 1
+        indices[b] = list_len[from(bond(lattice,b))]
+    end
+    # create all lists
+    organized_bonds = Vector{Vector{B}}(undef, numSites(lattice))
+    for s in 1:numSites(lattice)
+        organized_bonds[s] = Vector{B}(undef, list_len[s])
+    end
+    # insert all bonds
+    for b in 1:numBonds(lattice)
+        organized_bonds[from(bond(lattice,b))][indices[b]] = bond(lattice,b)
+    end
+    # return the list
+    return organized_bonds
 end
 # get an organized bond list (organized by 'to')
 function organizedBondsTo(
@@ -299,10 +314,25 @@ function organizedBondsTo(
 
     # temporary fix for dispatch behavior: name all types explicitly
     D,N,LS,LB,U,S,B,L
-    # build a new list and return it
-    return Vector{B}[
-        filter(b->to(b)==i, bonds(lattice)) for i in 1:numSites(lattice)
-    ]
+    # construct a list of indices
+    indices  = zeros(Int64, numBonds(lattice))
+    list_len = zeros(Int64, numSites(lattice))
+    # give each bond an index
+    for b in 1:numBonds(lattice)
+        list_len[to(bond(lattice,b))] += 1
+        indices[b] = list_len[to(bond(lattice,b))]
+    end
+    # create all lists
+    organized_bonds = Vector{Vector{B}}(undef, numSites(lattice))
+    for s in 1:numSites(lattice)
+        organized_bonds[s] = Vector{B}(undef, list_len[s])
+    end
+    # insert all bonds
+    for b in 1:numBonds(lattice)
+        organized_bonds[to(bond(lattice,b))][indices[b]] = bond(lattice,b)
+    end
+    # return the list
+    return organized_bonds
 end
 
 # export organized bond function
