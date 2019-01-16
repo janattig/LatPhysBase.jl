@@ -67,6 +67,27 @@ AbstractSite
 
 # default constructor interface
 # used for creation of new sites
+"""
+    function newSite(
+            :: Type{S},
+            point   :: Vector{<:Real},
+            label   :: L
+        ) :: S where {L,S<:AbstractSite{L,D} where D}
+
+Interface function for creation of new `AbstractSite` object of a passed type `S` from a passed `point` and `label`.
+Returns a new site object of type `S`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> s = newSite(Site{String,2}, [0,0], "site1")
+...
+```
+"""
 function newSite(
             :: Type{S},
             point   :: Vector{<:Real},
@@ -86,6 +107,27 @@ export newSite
 
 
 # get label
+"""
+    function label(
+            s :: AbstractSite{L,D}
+        ) :: L where {L,D}
+
+Interface function for obtaining the label of a passed `AbstractSite` object `s`.
+Returns an object of type `L`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> s = newSite(Site{String,2}, [0,0], "site1")
+
+julia> label(s)
+"site1"
+```
+"""
 function label(
             s :: AbstractSite{L,D}
         ) :: L where {L,D}
@@ -94,6 +136,30 @@ function label(
     error("not implemented interface function 'label' for site type " * string(typeof(s)))
 end
 # set label
+"""
+    function label!(
+            s :: AbstractSite{L,D},
+            l :: L
+        ) where {L,D}
+
+Interface function for setting the label of a passed `AbstractSite` object `s`
+to a passed value `l` of label type `L`. Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> s = newSite(Site{String,2}, [0,0], "site1")
+
+julia> label!(s, "mylabel")
+
+julia> label(s)
+"mylabel"
+```
+"""
 function label!(
             s :: AbstractSite{L,D},
             l :: L
@@ -109,6 +175,27 @@ export label, label!
 
 
 # get point
+"""
+    function point(
+            s :: AbstractSite{L,D}
+        ) ::Vector{Float64} where {L,D}
+
+Interface function for obtaining the position of a passed `AbstractSite` object `s`.
+Returns an object of type `Vector{Float64}` with length `D`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> s = newSite(Site{String,2}, [0,0], "site1")
+
+julia> point(s)
+[0.0, 0.0]
+```
+"""
 function point(
             s :: AbstractSite{L,D}
         ) :: Vector{Float64} where {L,D}
@@ -117,6 +204,30 @@ function point(
     error("not implemented interface function 'point' for site type " * string(typeof(s)))
 end
 # set point
+"""
+    function point!(
+            s :: AbstractSite{L,D},
+            p :: Vector{<:Real}
+        ) where {L,D}
+
+Interface function for setting the position of a passed `AbstractSite` object `s`
+to a passed value `p` of label type `Vector{<:Real}`. Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> s = newSite(Site{String,2}, [0,0], "site1")
+
+julia> point!(s, [2.0,1.0])
+
+julia> point(s)
+[2.0,1.0]
+```
+"""
 function point!(
             s :: AbstractSite{L,D},
             p :: Vector{<:Real}
