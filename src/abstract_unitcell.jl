@@ -78,6 +78,30 @@ AbstractUnitcell
 
 # default constructor interface
 # used for creation of new unitcells
+"""
+    function newUnitcell(
+            ::Type{U},
+            lattice_vectors :: Vector{<:Vector{<:Real}},
+            sites           :: Vector{S},
+            bonds           :: Vector{B}
+        ) :: U where{...}
+
+Interface function for creation of new `AbstractUnitcell` object of a passed type `U` from a passed
+set of `lattice_vectors`, `sites` and `bonds`. Returns a new unitcell object of type `U`.
+Note that `sites` have to be `AbstractSite` objects and `bonds` have to be `AbstractBond` objects so that
+from their types one can infere information on the unitcell.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds)
+...
+```
+"""
 function newUnitcell(
             ::Type{U},
             lattice_vectors :: Vector{<:Vector{<:Real}},
@@ -100,6 +124,29 @@ export newUnitcell
 
 
 # accessing a list of lattice vectors
+"""
+    function latticeVectors(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Vector{Vector{Float64}} where {...}
+
+Interface function for obtaining the Bravais lattice vectors of a passed `AbstractUnitcell` object `unitcell`.
+Returns a list of Bravais lattice vectors as an object of type `Vector{Vector{Float64}}`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> latticeVectors(uc)
+2-element Array{Array{Float64,1},1}:
+ [1.0, 0.0]
+ [0.0, 1.0]
+```
+"""
 function latticeVectors(
             unitcell :: U
         ) :: Vector{Vector{Float64}} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -108,6 +155,32 @@ function latticeVectors(
     error(  "not implemented function 'latticeVectors' for concrete unitcell type " * string(U) )
 end
 # setting a list of lattice vectors
+"""
+    function latticeVectors!(
+            unitcell        :: AbstractUnitcell{S,B},
+            lattice_vectors :: Vector{<:Vector{<:Real}}
+        ) where {...}
+
+Interface function for setting the Bravais lattice vectors of a passed `AbstractUnitcell` object `unitcell` to a new value.
+Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> latticeVectors!(uc, [[2,0], [0,2]])
+
+julia> latticeVectors(uc)
+2-element Array{Array{Float64,1},1}:
+ [2.0, 0.0]
+ [0.0, 2.0]
+```
+"""
 function latticeVectors!(
             unitcell        :: U,
             lattice_vectors :: Vector{<:Vector{<:Real}}
@@ -124,6 +197,29 @@ export latticeVectors, latticeVectors!
 
 
 # accessing a list of sites
+"""
+    function sites(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Vector{S} where {...}
+
+Interface function for obtaining the list of sites of a passed `AbstractUnitcell` object `unitcell`.
+Returns a list of `AbstractSite` objects of type `S` as an object of type `Vector{S}`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> sites(uc)
+2-element Array{Site{String,2},1}:
+ Site{Int64,2} @[0.0, 0.0]: "site1"
+ Site{Int64,2} @[0.57735, 0.0]: "site2"
+```
+"""
 function sites(
             unitcell :: U
         ) :: Vector{S} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -133,6 +229,32 @@ function sites(
             string(U) * " with site type " * string(S)   )
 end
 # setting a list of sites
+"""
+    function sites!(
+            unitcell :: AbstractUnitcell{S,B},
+            sites    :: Vector{S}
+        ) where {...}
+
+Interface function for setting the sites of a passed `AbstractUnitcell` object `unitcell` to a new value.
+Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> sites!(uc, new_site_list)
+
+julia> sites(uc)
+2-element Array{Site{String,2},1}:
+ Site{Int64,2} @[0.0, 1.0]: "site1_new"
+ Site{Int64,2} @[0.1, 0.0]: "site2_new"
+```
+"""
 function sites!(
             unitcell :: U,
             sites    :: Vector{S}
@@ -149,6 +271,33 @@ export sites, sites!
 
 
 # accessing a list of bonds
+"""
+    function bonds(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Vector{B} where {...}
+
+Interface function for obtaining the list of bonds of a passed `AbstractUnitcell` object `unitcell`.
+Returns a list of `AbstractBond` objects of type `B` as an object of type `Vector{B}`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> bonds(uc)
+6-element Array{Bond{Int64,2},1}:
+ Bond{Int64,2} 1-->2 @(0, 0): 1
+ Bond{Int64,2} 1-->2 @(-1, 0): 1
+ Bond{Int64,2} 1-->2 @(0, -1): 1
+ Bond{Int64,2} 2-->1 @(0, 0): 1
+ Bond{Int64,2} 2-->1 @(1, 0): 1
+ Bond{Int64,2} 2-->1 @(0, 1): 1
+```
+"""
 function bonds(
             unitcell :: U
         ) :: Vector{B} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -158,6 +307,34 @@ function bonds(
             string(U) * " with bond type " * string(B)   )
 end
 # setting a list of bonds
+"""
+    function bonds!(
+            unitcell :: AbstractUnitcell{S,B},
+            bonds    :: Vector{B}
+        ) where {...}
+
+Interface function for setting the bonds of a passed `AbstractUnitcell` object `unitcell` to a new value.
+Returns nothing.
+
+NOTE that bonds are always directed and require a returning counterpart to work as expected.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> bonds!(uc, bond_list_new)
+
+julia> bonds(uc)
+2-element Array{Bond{Int64,2},1}:
+ Bond{Int64,2} 1-->2 @(0, 0): 42
+ Bond{Int64,2} 2-->1 @(0, 0): 42
+```
+"""
 function bonds!(
             unitcell :: U,
             bonds    :: Vector{B}
@@ -219,6 +396,27 @@ export similar
 # builds on interface defined above but can also be overwritten
 
 # number of sites
+"""
+    function numSites(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Int64 where {...}
+
+Function for obtaining the number of sites of a passed `AbstractUnitcell` object `unitcell`.
+Returns the number as an `Int64`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as the length of the site list obtained by `sites(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> numSites(uc)
+2
+```
+"""
 function numSites(
             unitcell :: U
         ) :: Int64 where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -228,6 +426,27 @@ function numSites(
 end
 
 # number of bonds
+"""
+    function numBonds(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Int64 where {...}
+
+Function for obtaining the number of bonds of a passed `AbstractUnitcell` object `unitcell`.
+Returns the number as an `Int64`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as the length of the bond list obtained by `bonds(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> numBonds(uc)
+6
+```
+"""
 function numBonds(
             unitcell :: U
         ) :: Int64 where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -245,9 +464,31 @@ export numSites, numBonds
 # access a specific site or bond
 
 # site
+"""
+    function site(
+            unitcell :: AbstractUnitcell{S,B},
+            index    :: Integer
+        ) :: S where {...}
+
+Function for obtaining the `AbstractSite` object of type `S` that corresponds to the site with index `index`
+of a passed `AbstractUnitcell` object `unitcell`. Returns an object of type `S`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as explicit call from the site list obtained by `sites(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> site(uc,1)
+Site{Int64,2} @[0.0, 0.0]: "site1"
+```
+"""
 function site(
             unitcell :: U,
-            index    :: Int64
+            index    :: Integer
         ) :: S where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
 
     # return the respective site
@@ -255,9 +496,31 @@ function site(
 end
 
 # bond
+"""
+    function bond(
+            unitcell :: AbstractUnitcell{S,B},
+            index    :: Integer
+        ) :: B where {...}
+
+Function for obtaining the `AbstractBond` object of type `B` that corresponds to the bond with index `index`
+of a passed `AbstractUnitcell` object `unitcell`. Returns an object of type `B`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as explicit call from the bond list obtained by `bonds(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> bond(uc,1)
+Bond{Int64,2} 1-->2 @(0, 0): 1
+```
+"""
 function bond(
             unitcell :: U,
-            index    :: Int64
+            index    :: Integer
         ) :: B where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
 
     # return the respective bond
@@ -271,28 +534,106 @@ export site, bond
 
 
 # get an organized bond list (organized by 'from')
+"""
+    function organizedBondsFrom(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Vector{Vector{B}} where {...}
+
+Function for obtaining an organized version of the list of bonds of a passed `AbstractUnitcell` object `unitcell`.
+Returns a nested list of `AbstractBond` objects of type `B` as an object of type `Vector{Vector{B}}`,
+in which the element `i` is a list of all bonds emerging from site `i`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+on the level of abstract types and interface functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> organizedBondsFrom(uc)
+2-element Array{Array{Bond{Int64,2},1},1}:
+ [Bond{Int64,2} 1-->2 @(0, 0): 1, Bond{Int64,2} 1-->2 @(-1, 0): 1, Bond{Int64,2} 1-->2 @(0, -1): 1]
+ [Bond{Int64,2} 2-->1 @(0, 0): 1, Bond{Int64,2} 2-->1 @(1, 0): 1, Bond{Int64,2} 2-->1 @(0, 1): 1]
+```
+"""
 function organizedBondsFrom(
             unitcell :: U
         ) :: Vector{Vector{B}} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
 
     # temporary fix for dispatch behavior: name all types explicitly
     D,N,LS,LB,U,S,B
-    # build a new list and return it
-    return Vector{B}[
-        filter(b->from(b)==i, bonds(unitcell)) for i in 1:numSites(unitcell)
-    ]
+    # construct a list of indices
+    indices  = zeros(Int64, numBonds(unitcell))
+    list_len = zeros(Int64, numSites(unitcell))
+    # give each bond an index
+    for b in 1:numBonds(unitcell)
+        list_len[from(bond(unitcell,b))] += 1
+        indices[b] = list_len[from(bond(unitcell,b))]
+    end
+    # create all lists
+    organized_bonds = Vector{Vector{B}}(undef, numSites(unitcell))
+    for s in 1:numSites(unitcell)
+        organized_bonds[s] = Vector{B}(undef, list_len[s])
+    end
+    # insert all bonds
+    for b in 1:numBonds(unitcell)
+        organized_bonds[from(bond(unitcell,b))][indices[b]] = bond(unitcell,b)
+    end
+    # return the list
+    return organized_bonds
 end
 # get an organized bond list (organized by 'to')
+"""
+    function organizedBondsTo(
+            unitcell :: AbstractUnitcell{S,B}
+        ) :: Vector{Vector{B}} where {...}
+
+Function for obtaining an organized version of the list of bonds of a passed `AbstractUnitcell` object `unitcell`.
+Returns a nested list of `AbstractBond` objects of type `B` as an object of type `Vector{Vector{B}}`,
+in which the element `i` is a list of all bonds pointing to site `i`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+on the level of abstract types and interface functions.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0], [0,1]], sites, bonds);
+
+julia> organizedBondsTo(uc)
+2-element Array{Array{Bond{Int64,2},1},1}:
+ [Bond{Int64,2} 2-->1 @(0, 0): 1, Bond{Int64,2} 2-->1 @(1, 0): 1, Bond{Int64,2} 2-->1 @(0, 1): 1]
+ [Bond{Int64,2} 1-->2 @(0, 0): 1, Bond{Int64,2} 1-->2 @(-1, 0): 1, Bond{Int64,2} 1-->2 @(0, -1): 1]
+```
+"""
 function organizedBondsTo(
             unitcell :: U
         ) :: Vector{Vector{B}} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
 
     # temporary fix for dispatch behavior: name all types explicitly
     D,N,LS,LB,U,S,B
-    # build a new list and return it
-    return Vector{B}[
-        filter(b->to(b)==i, bonds(unitcell)) for i in 1:numSites(unitcell)
-    ]
+    # construct a list of indices
+    indices  = zeros(Int64, numBonds(unitcell))
+    list_len = zeros(Int64, numSites(unitcell))
+    # give each bond an index
+    for b in 1:numBonds(unitcell)
+        list_len[to(bond(unitcell,b))] += 1
+        indices[b] = list_len[to(bond(unitcell,b))]
+    end
+    # create all lists
+    organized_bonds = Vector{Vector{B}}(undef, numSites(unitcell))
+    for s in 1:numSites(unitcell)
+        organized_bonds[s] = Vector{B}(undef, list_len[s])
+    end
+    # insert all bonds
+    for b in 1:numBonds(unitcell)
+        organized_bonds[to(bond(unitcell,b))][indices[b]] = bond(unitcell,b)
+    end
+    # return the list
+    return organized_bonds
 end
 
 # export organized bond function
@@ -302,6 +643,25 @@ export organizedBondsFrom, organizedBondsTo
 # specific Bravais lattices
 
 # a1
+"""
+    function a1(unitcell ::AbstractUnitcell{S,B}) ::Vector{Float64} where {...}
+
+Function for directly obtaining the first Bravais lattice vector of a passed `AbstractUnitcell` object `unitcell`.
+Returns the vector as an object of type `Vector{Float64}`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+as a simple wrapper around `latticeVectors(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> a1(uc)
+[1,0,0]
+```
+"""
 function a1(
             unitcell :: U
         ) :: Vector{Float64} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -311,6 +671,25 @@ function a1(
 end
 
 # a2
+"""
+    function a2(unitcell ::AbstractUnitcell{S,B}) ::Vector{Float64} where {...}
+
+Function for directly obtaining the second Bravais lattice vector of a passed `AbstractUnitcell` object `unitcell`.
+Returns the vector as an object of type `Vector{Float64}`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+as a simple wrapper around `latticeVectors(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> a2(uc)
+[0,1,0]
+```
+"""
 function a2(
             unitcell :: U
         ) :: Vector{Float64} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
@@ -320,6 +699,25 @@ function a2(
 end
 
 # a3
+"""
+    function a3(unitcell ::AbstractUnitcell{S,B}) ::Vector{Float64} where {...}
+
+Function for directly obtaining the third Bravais lattice vector of a passed `AbstractUnitcell` object `unitcell`.
+Returns the vector as an object of type `Vector{Float64}`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+as a simple wrapper around `latticeVectors(unitcell)`.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> a3(uc)
+[0,0,1]
+```
+"""
 function a3(
             unitcell :: U
         ) :: Vector{Float64} where {D,N,LS,LB,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},U<:AbstractUnitcell{S,B}}
