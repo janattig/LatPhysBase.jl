@@ -28,6 +28,35 @@ abstract type AbstractSite{L,D} end
 export AbstractSite
 
 
+# DOCSTRING
+"""
+    abstract type AbstractSite{L,D}
+
+The abstract site type that describes all site implementations. It is parametric in two types,
+- `L` the type of the bond label
+- `D` an integer number specifying the number of spatial dimensions in which the site is embedded
+
+
+The abstract type is equipped with interface functions which are listed in the following. These interface functions have to be implemented by concrete subtypes / structs for the concrete type to be usable in all pre-implemented functions.
+- `newSite` to create a new site object of a passed concrete site type
+- `label` and `label!` to access the site label
+- `point` and `point!` to access the site position in real space
+
+The interface functions throw adequate errors when called but not implemented for concrete types.
+See specific documentation for the individual functions.
+
+
+# Examples
+
+```julia-REPL
+julia> AbstractSite{Symbol,3} <: AbstractSite{L,D} where{L,D}
+true
+```
+
+"""
+AbstractSite
+
+
 
 ################################################################################
 #

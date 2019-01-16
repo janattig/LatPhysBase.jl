@@ -29,6 +29,43 @@ export AbstractBond
 
 
 
+# DOCSTRING
+"""
+    abstract type AbstractBond{L,N}
+
+The abstract bond type that describes all bond implementations. It is parametric in two types,
+- `L` the type of the bond label
+- `N` an integer number specifying the number of periodic directions, it can wrap around
+
+
+The abstract type is equipped with interface functions which are listed in the following. These interface functions have to be implemented by concrete subtypes / structs for the concrete type to be usable in all pre-implemented functions.
+- `newBond` to create a new bond object of a passed concrete bond type
+- `from` and `from!` to access the index of the bond origin site
+- `to` and `to!` to access the index of the bond destination site
+- `label` and `label!` to access the bond label
+- `wrap` and `wrap!` to access the bond wrap, i.e. in which copy of the unitcell / lattice is points to
+
+The interface functions throw adequate errors when called but not implemented for concrete types.
+See specific documentation for the individual functions.
+
+Furthermore, there is a function to test if the bond is periodic (i.e. wrapping around in any direction),
+called `isPeriodic`, which does not have to be implemented for every concrete bond type.
+
+
+# Examples
+
+```julia-REPL
+julia> AbstractBond{Int64,2} <: AbstractBond{L,N} where{L,N}
+true
+```
+
+"""
+AbstractBond
+
+
+
+
+
 ################################################################################
 #
 #	INTERFACING / ACCESSING BONDS

@@ -31,7 +31,40 @@ abstract type AbstractUnitcell{
 export AbstractUnitcell
 
 
+# DOCSTRING
+"""
+    abstract type AbstractUnitcell{S,B}
 
+The abstract unitcell type that describes all unitcell implementations. It is parametric in two types,
+- `S` the type of sites within unitcell (subtype of `AbstractSite{LS,D}`)
+- `B` the type of bonds within unitcell (subtype of `AbstractBond{LB,N}`)
+Note that the spatial dimension or the number of Bravais lattice vectors is already
+encoded in the site and bond types respectively, as e.g. `N` describes the number of Bravais lattice vectors.
+
+The abstract type is equipped with interface functions which are listed in the following. These interface functions have to be implemented by concrete subtypes / structs for the concrete type to be usable in all pre-implemented functions.
+- `newUnitcell` to create a new unitcell object of a passed concrete unitcell type
+- `latticeVectors` and `latticeVectors!` to access the Bravais lattice vectors
+- `sites` and `sites!` to access the site list of the unitcell
+- `bonds` and `bonds!` to access the bond list of the unitcell
+
+The interface functions throw adequate errors when called but not implemented for concrete types.
+See specific documentation for the individual functions.
+
+Furthermore, there are certain convinience functions which do not have to be implemented for every
+concrete type. These are
+- `numSites` to get the number of sites (i.e. length of site list)
+- `numBonds` to get the number of bonds (i.e. length of bond list)
+- `site` and `bond` to explicitly access individual sites and bonds
+- `organizedBondsFrom` and `organizedBondsTo` to get a reorganized form of the bond list
+- `a1`, `a2` and `a3` to access individual Bravais lattice vectors directly
+
+
+# Examples
+
+`AbstractUnitcell{Site{Int64,3}, Bond{Symbol,2}}` is the supertype of a unitcell in `3` spatial dimensions with `2` Bravais lattice vectors with `Int64` site labels and `Symbol` bond labels.
+
+"""
+AbstractUnitcell
 
 
 

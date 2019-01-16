@@ -43,7 +43,49 @@ abstract type AbstractLattice{
 export AbstractLattice
 
 
+# DOCSTRING
+"""
+    abstract type AbstractLattice{S,B,U}
 
+The abstract unitcell type that describes all unitcell implementations.
+It is parametric in three types,
+- `S` the type of sites within lattice (subtype of `AbstractSite{LS,D}`)
+- `B` the type of bonds within lattice (subtype of `AbstractBond{LB,N}`)
+- `U` the type of unitcell within lattice (subtype of `AbstractUnitcell{S,B}`). Note that the site and bond types of the unitcell can be different from that of the lattice.
+Note that the spatial dimension or the number of Bravais lattice vectors is already
+encoded in the site and bond types respectively, as e.g. `N` describes the
+number of Bravais lattice vectors.
+
+The abstract type is equipped with interface functions which are listed in the following.
+These interface functions have to be implemented by concrete subtypes / structs for the
+concrete type to be usable in all pre-implemented functions.
+- `newLattice` to create a new lattice object of a passed concrete lattice type
+- `latticeVectors` and `latticeVectors!` to access the Bravais lattice vectors
+- `sites` and `sites!` to access the site list of the lattice
+- `bonds` and `bonds!` to access the bond list of the lattice
+- `unitcell` and `unitcell!` to access the unitcell of the lattice
+
+The interface functions throw adequate errors when called but not implemented for
+concrete types. See specific documentation for the individual functions.
+
+Furthermore, there are certain convinience functions which do not have to be implemented for every
+concrete type. These are
+- `numSites` to get the number of sites (i.e. length of site list)
+- `numBonds` to get the number of bonds (i.e. length of bond list)
+- `site` and `bond` to explicitly access individual sites and bonds
+- `organizedBondsFrom` and `organizedBondsTo` to get a reorganized form of the bond list
+- `a1`, `a2` and `a3` to access individual Bravais lattice vectors directly
+
+
+# Examples
+
+`AbstractLattice{Site{Int64,3}, Bond{Int64,2}, Unitcell{Site{Int64,3}, Bond{Symbol,2}}}`
+is the supertype of a lattice in `3` spatial dimensions with `2` Bravais lattice vectors with
+`Int64` site labels and `Int64` bond labels and a unitcell in `3` spatial dimensions with `2`
+Bravais lattice vectors with `Int64` site labels and `Symbol` bond labels.
+
+"""
+AbstractLattice
 
 
 
