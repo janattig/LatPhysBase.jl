@@ -75,6 +75,30 @@ AbstractBond
 
 # default constructor interface
 # used for creation of new bonds
+"""
+    function newBond(
+            :: Type{B},
+            from    :: Integer,
+            to      :: Integer,
+            label   :: L,
+            wrap    :: NTuple{N,<:Integer}
+        ) :: B where {L,N,B<:AbstractBond{L,N}}
+
+Interface function for creation of new `AbstractBond` object of a passed type `B` from passed site
+indices `from` and `to` as well as passed label `label` of type `L` and a passed `wrap` as a `NTuple`.
+Returns a new bond object of type `B`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1))
+...
+```
+"""
 function newBond(
             :: Type{B},
             from    :: Integer,
@@ -98,6 +122,27 @@ export newBond
 # UIDs of sites between which the bond is located
 
 # get from index / UID (Int64)
+"""
+    function from(
+            b :: AbstractBond{L,N}
+        ) :: Int64 where {L,N}
+
+Interface function for obtaining the origin site index of a passed `AbstractBond` object `b`.
+Returns an Int64 specifying the site index of the bonds origin site.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> from(b)
+12
+```
+"""
 function from(
             b :: AbstractBond{L,N}
         ) :: Int64 where {L,N}
@@ -106,6 +151,30 @@ function from(
     error("not implemented interface function 'from' for bond type " * string(typeof(b)))
 end
 # set from index / UID (Int64)
+"""
+    function from!(
+            b :: AbstractBond{L,N},
+            i :: Integer
+        ) where {L,N}
+
+Interface function for setting the origin site index of a passed `AbstractBond` object `b`
+to a new value `i`. Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> from!(b, 14)
+
+julia> from(b)
+14
+```
+"""
 function from!(
             b :: AbstractBond{L,N},
             i :: Integer
@@ -120,7 +189,30 @@ export from, from!
 
 
 
+
+
 # get to index / UID (Int64)
+"""
+    function to(
+            b :: AbstractBond{L,N}
+        ) :: Int64 where {L,N}
+
+Interface function for obtaining the destination site index of a passed `AbstractBond` object `b`.
+Returns an Int64 specifying the site index of the bonds destination site.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> to(b)
+42
+```
+"""
 function to(
             b :: AbstractBond{L,N}
         ) :: Int64 where {L,N}
@@ -129,6 +221,30 @@ function to(
     error("not implemented interface function 'to' for bond type " * string(typeof(b)))
 end
 # set to index / UID (Int64)
+"""
+    function to!(
+            b :: AbstractBond{L,N},
+            i :: Integer
+        ) where {L,N}
+
+Interface function for setting the destination site index of a passed `AbstractBond` object `b`
+to a passed value `i`. Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> to!(b, 1)
+
+julia> to(b)
+1
+```
+"""
 function to!(
             b :: AbstractBond{L,N},
             i :: Integer
@@ -145,6 +261,27 @@ export to, to!
 
 
 # get label
+"""
+    function label(
+            b :: AbstractBond{L,N}
+        ) :: L where {L,N}
+
+Interface function for obtaining the label of a passed `AbstractBond` object `b`.
+Returns an object of type `L`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> label(b)
+:x
+```
+"""
 function label(
             b :: AbstractBond{L,N}
         ) :: L where {L,N}
@@ -154,6 +291,30 @@ function label(
 end
 
 # set label
+"""
+    function label!(
+            b :: AbstractBond{L,N},
+            l :: L
+        ) where {L,N}
+
+Interface function for setting the label of a passed `AbstractBond` object `b`
+to a passed value `l` of label type `L`. Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> label!(b, :y)
+
+julia> label(b)
+:y
+```
+"""
 function label!(
             b :: AbstractBond{L,N},
             l :: L
@@ -169,6 +330,28 @@ export label, label!
 
 
 # get wrap
+"""
+    function wrap(
+            b :: AbstractBond{L,N}
+        ) :: NTuple{N,Int64} where {L,N}
+
+Interface function for obtaining the wrap of a passed `AbstractBond` object `b`.
+Returns an object of type `NTuple{N,Int64}` containing the information in which
+copy of the unitcell or lattice the bond is pointing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> wrap(b)
+(0, 1)
+```
+"""
 function wrap(
             b :: AbstractBond{L,N}
         ) :: NTuple{N,Int64} where {L,N}
@@ -177,6 +360,30 @@ function wrap(
     error("not implemented interface function 'wrap' for bond type " * string(typeof(b)))
 end
 # set wrap
+"""
+    function wrap!(
+            b :: AbstractBond{L,N},
+            w :: NTuple{N, <:Integer}
+        ) where {L,N}
+
+Interface function for setting the wrap of a passed `AbstractBond` object `b`
+to a passed value `w` of label type `NTuple{N, <:Integer}`. Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> wrap!(b, (0,0))
+
+julia> wrap(b)
+(0, 0)
+```
+"""
 function wrap!(
             b :: AbstractBond{L,N},
             w :: NTuple{N, <:Integer}
@@ -236,6 +443,28 @@ export similar
 # does not have to be overwritten as it uses interface from above
 
 # check if the bond is periodic
+"""
+    function isPeriodic(
+            b :: AbstractBond{L,N}
+        ) :: Bool where {L,N}
+
+Function for determining if a passed `AbstractBond` object `b` is periodic
+in any lattice / unitcell direction. Internally, the wrap is checked for non-zero elements
+which indicate pointing into a different copy of the surrounding unitcell / lattice.
+Returns a `Bool` indicating if there are non-zero wrap elements.
+
+This function does not have to be overwritten by a concrete type.
+
+
+# Examples
+
+```julia-REPL
+julia> b = newBond(Bond{Symbol,2}, 12, 42, :x, (0,1));
+
+julia> isPeriodic(b)
+true
+```
+"""
 function isPeriodic(
             b :: AbstractBond{L,N}
         ) :: Bool where {L,N}
