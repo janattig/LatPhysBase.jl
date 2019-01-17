@@ -45,7 +45,7 @@ See specific documentation for the function itself.
 # Examples
 
 ```julia-REPL
-julia> AbstractBond{Int64,2} <: AbstractBond{L,N} where{L,N}
+julia> AbstractBondHamiltonian{Int64,3} <: AbstractBondHamiltonian{L,N} where{L,N}
 true
 ```
 
