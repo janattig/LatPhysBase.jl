@@ -94,6 +94,12 @@ from their types one can infere information on the unitcell.
 This function has to be overwritten by a concrete type,
 otherwise it will throw an error when used in further functions.
 
+NOTE that this constructor function is most commonly used in further unitcell generating
+functions that build on abstract interfaces. This way, any unitcell type can be chosen
+as a type for the constructed unitcell and the functions don't have to know the details
+of the specific types.
+
+
 
 # Examples
 

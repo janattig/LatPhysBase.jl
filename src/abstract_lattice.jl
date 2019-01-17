@@ -99,6 +99,43 @@ AbstractLattice
 
 # default constructor interface
 # used for creation of new lattices
+"""
+    function newLattice(
+            ::Type{L},
+            lattice_vectors :: Vector{<:Vector{<:Real}},
+            sites           :: Vector{S},
+            bonds           :: Vector{B},
+            unitcell        :: U
+        ) :: L where{...}
+
+Interface function for creation of new `AbstractLattice` object of a passed type `L` from a passed
+set of `lattice_vectors`, `sites`, `bonds` and a `unitcell`. Returns a new lattice object of type `L`.
+Note that `sites` have to be `AbstractSite` objects and `bonds` have to be `AbstractBond` objects so that
+from their types one can infere information on the lattice. Furthermore, the lattice type has to be specified
+to agree with the types of `S`, `B` and `U`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+NOTE that this constructor function is most commonly used in further lattice constructing
+functions that build on abstract interfaces. This way, any lattice type can be chosen
+as a type for the constructed lattice and the functions don't have to know the details
+of the specific types.
+
+
+# Examples
+
+```julia-REPL
+julia> lt = newLattice(
+                Lattice{Site{String,2}, Bond{Int64,2}, Unitcell{Site{String,2}, Bond{Int64,2}}},
+                lattice_vectors,
+                sites,
+                bonds,
+                unitcell
+            )
+...
+```
+"""
 function newLattice(
             ::Type{L},
             lattice_vectors :: Vector{<:Vector{<:Real}},
@@ -120,6 +157,27 @@ export newLattice
 
 
 # accessing a list of lattice vectors
+"""
+    function latticeVectors(
+            lattice :: AbstractLattice{S,B,U}
+        ) :: Vector{Vector{Float64}} where {...}
+
+Interface function for obtaining the Bravais lattice vectors of a passed `AbstractLattice` object `lattice`.
+Returns a list of Bravais lattice vectors as an object of type `Vector{Vector{Float64}}`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> latticeVectors(lattice)
+2-element Array{Array{Float64,1},1}:
+ [1.0, 0.0]
+ [0.0, 1.0]
+```
+"""
 function latticeVectors(
             lattice :: L
         ) :: Vector{Vector{Float64}} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -128,6 +186,30 @@ function latticeVectors(
     error(  "not implemented function 'latticeVectors' for concrete lattice type " * string(L) )
 end
 # setting a list of lattice vectors
+"""
+    function latticeVectors!(
+            lattice         :: AbstractLattice{S,B,U},
+            lattice_vectors :: Vector{<:Vector{<:Real}}
+        ) where {...}
+
+Interface function for setting the Bravais lattice vectors of a passed `AbstractLattice` object `lattice` to a new value.
+Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> latticeVectors!(lattice, [[2,0], [0,2]])
+
+julia> latticeVectors(lattice)
+2-element Array{Array{Float64,1},1}:
+ [2.0, 0.0]
+ [0.0, 2.0]
+```
+"""
 function latticeVectors!(
             lattice         :: L,
             lattice_vectors :: Vector{<:Vector{<:Real}}
@@ -144,6 +226,28 @@ export latticeVectors, latticeVectors!
 
 
 # accessing a list of sites
+"""
+    function sites(
+            lattice :: AbstractLattice{S,B,U}
+        ) :: Vector{S} where {...}
+
+Interface function for obtaining the list of sites of a passed `AbstractLattice` object `lattice`.
+Returns a list of `AbstractSite` objects of type `S` as an object of type `Vector{S}`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> sites(lattice)
+20-element Array{Site{String,2},1}:
+ Site{Int64,2} @[0.0, 0.0]: "site1"
+ Site{Int64,2} @[0.57735, 0.0]: "site2"
+ ...
+```
+"""
 function sites(
             lattice :: L
         ) :: Vector{S} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -153,6 +257,31 @@ function sites(
             string(L) * " with site type " * string(S)   )
 end
 # setting a list of sites
+"""
+    function sites!(
+            lattice :: AbstractLattice{S,B,U},
+            sites   :: Vector{S}
+        ) where {...}
+
+Interface function for setting the sites of a passed `AbstractLattice` object `lattice` to a new value.
+Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> sites!(lattice, new_site_list)
+
+julia> sites(lattice)
+10-element Array{Site{String,2},1}:
+ Site{Int64,2} @[0.0, 1.0]: "site1_new"
+ Site{Int64,2} @[0.1, 0.0]: "site2_new"
+ ...
+```
+"""
 function sites!(
             lattice :: L,
             sites   :: Vector{S}
@@ -169,6 +298,28 @@ export sites, sites!
 
 
 # accessing a list of bonds
+"""
+    function bonds(
+            lattice :: AbstractLattice{S,B,U}
+        ) :: Vector{B} where {...}
+
+Interface function for obtaining the list of bonds of a passed `AbstractLattice` object `lattice`.
+Returns a list of `AbstractBond` objects of type `B` as an object of type `Vector{B}`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> bonds(lattice)
+60-element Array{Bond{Int64,2},1}:
+ Bond{Int64,2} 1-->2 @(0, 0): 1
+ Bond{Int64,2} 2-->1 @(0, 0): 1
+ ...
+```
+"""
 function bonds(
             lattice :: L
         ) :: Vector{B} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -178,6 +329,33 @@ function bonds(
             string(L) * " with bond type " * string(B)   )
 end
 # setting a list of bonds
+"""
+    function bonds!(
+            lattice :: AbstractLattice{S,B,U},
+            bonds   :: Vector{B}
+        ) where {...}
+
+Interface function for setting the bonds of a passed `AbstractLattice` object `lattice` to a new value.
+Returns nothing.
+
+NOTE that bonds are always directed and require a returning counterpart to work as expected.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> bonds!(lattice, bond_list_new)
+
+julia> bonds(uc)
+20-element Array{Bond{Int64,2},1}:
+ Bond{Int64,2} 1-->2 @(0, 1): 42
+ Bond{Int64,2} 2-->1 @(0, -1): 42
+ ...
+```
+"""
 function bonds!(
             lattice :: L,
             bonds   :: Vector{B}
@@ -195,6 +373,25 @@ export bonds, bonds!
 
 
 # accessing the unitcell
+"""
+    function unitcell(
+            lattice :: AbstractLattice{S,B,U}
+        ) :: U where {...}
+
+Interface function for obtaining the unitcell of a passed `AbstractLattice` object `lattice`.
+Returns an object of type `U`.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> unitcell(lattice)
+...
+```
+"""
 function unitcell(
             lattice :: L
         ) :: U where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -204,6 +401,27 @@ function unitcell(
             string(L) * " with unitcell type " * string(U)   )
 end
 # setting the unitcell
+"""
+    function unitcell(
+            lattice  :: AbstractLattice{S,B,U},
+            unitcell :: U
+        ) :: U where {...}
+
+Interface function for setting the unitcell of a passed `AbstractLattice` object `lattice`
+to a new `AbstractUnitcell` object `unitcell` of type `U`.
+Returns nothing.
+
+This function has to be overwritten by a concrete type,
+otherwise it will throw an error when used in further functions.
+
+
+# Examples
+
+```julia-REPL
+julia> unitcell!(lattice, uc)
+...
+```
+"""
 function unitcell!(
             lattice  :: L,
             unitcell :: U
@@ -268,6 +486,25 @@ export similar
 # builds on interface defined above but can also be overwritten
 
 # number of sites
+"""
+    function numSites(
+            lattice  :: AbstractLattice{S,B,U}
+        ) :: Int64 where {...}
+
+Function for obtaining the number of sites of a passed `AbstractLattice` object `lattice`.
+Returns the number as an `Int64`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as the length of the site list obtained by `sites(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> numSites(lattice)
+20
+```
+"""
 function numSites(
             lattice :: L
         ) :: Int64 where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -277,6 +514,25 @@ function numSites(
 end
 
 # number of bonds
+"""
+    function numBonds(
+            lattice  :: AbstractLattice{S,B,U}
+        ) :: Int64 where {...}
+
+Function for obtaining the number of bonds of a passed `AbstractLattice` object `lattice`.
+Returns the number as an `Int64`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as the length of the bond list obtained by `bonds(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> numBonds(lattice)
+60
+```
+"""
 function numBonds(
             lattice :: L
         ) :: Int64 where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -296,6 +552,26 @@ export numSites, numBonds
 # access a specific site or bond
 
 # site
+"""
+    function site(
+            lattice :: AbstractLattice{S,B,U},
+            index   :: Integer
+        ) :: S where {...}
+
+Function for obtaining the `AbstractSite` object of type `S` that corresponds to the site with index `index`
+of a passed `AbstractLattice` object `lattice`. Returns an object of type `S`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as explicit call from the site list obtained by `sites(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> site(lattice,1)
+Site{Int64,2} @[0.0, 0.0]: "site1"
+```
+"""
 function site(
             lattice :: L,
             index   :: Int64
@@ -306,6 +582,26 @@ function site(
 end
 
 # bond
+"""
+    function bond(
+            lattice :: AbstractLattice{S,B,U},
+            index   :: Integer
+        ) :: B where {...}
+
+Function for obtaining the `AbstractBond` object of type `B` that corresponds to the bond with index `index`
+of a passed `AbstractLattice` object `lattice`. Returns an object of type `B`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+per default as explicit call from the bond list obtained by `bonds(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> bond(lattice,1)
+Bond{Int64,2} 1-->2 @(0, 0): 1
+```
+"""
 function bond(
             lattice :: L,
             index   :: Int64
@@ -323,6 +619,29 @@ export site, bond
 
 
 # get an organized bond list (organized by 'from')
+"""
+    function organizedBondsFrom(
+            lattice :: AbstractLattice{S,B,U}
+        ) :: Vector{Vector{B}} where {...}
+
+Function for obtaining an organized version of the list of bonds of a passed `AbstractLattice` object `lattice`.
+Returns a nested list of `AbstractBond` objects of type `B` as an object of type `Vector{Vector{B}}`,
+in which the element `i` is a list of all bonds emerging from site `i`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+on the level of abstract types and interface functions.
+
+
+# Examples
+
+```julia-REPL
+julia> organizedBondsFrom(lattice)
+20-element Array{Array{Bond{Int64,2},1},1}:
+ [Bond{Int64,2} 1-->2 @(0, 0): 1, Bond{Int64,2} 1-->2 @(-1, 0): 1, Bond{Int64,2} 1-->2 @(0, -1): 1]
+ [Bond{Int64,2} 2-->1 @(0, 0): 1, Bond{Int64,2} 2-->1 @(1, 0): 1, Bond{Int64,2} 2-->1 @(0, 1): 1]
+ ...
+```
+"""
 function organizedBondsFrom(
             lattice :: L
         ) :: Vector{Vector{B}} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -350,6 +669,29 @@ function organizedBondsFrom(
     return organized_bonds
 end
 # get an organized bond list (organized by 'to')
+"""
+    function organizedBondsTo(
+            lattice :: AbstractLattice{S,B,U}
+        ) :: Vector{Vector{B}} where {...}
+
+Function for obtaining an organized version of the list of bonds of a passed `AbstractLattice` object `lattice`.
+Returns a nested list of `AbstractBond` objects of type `B` as an object of type `Vector{Vector{B}}`,
+in which the element `i` is a list of all bonds pointing to site `i`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+on the level of abstract types and interface functions.
+
+
+# Examples
+
+```julia-REPL
+julia> organizedBondsTo(lattice)
+2-element Array{Array{Bond{Int64,2},1},1}:
+ [Bond{Int64,2} 2-->1 @(0, 0): 1, Bond{Int64,2} 2-->1 @(1, 0): 1, Bond{Int64,2} 2-->1 @(0, 1): 1]
+ [Bond{Int64,2} 1-->2 @(0, 0): 1, Bond{Int64,2} 1-->2 @(-1, 0): 1, Bond{Int64,2} 1-->2 @(0, -1): 1]
+ ...
+```
+"""
 function organizedBondsTo(
             lattice :: L
         ) :: Vector{Vector{B}} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -385,6 +727,23 @@ export organizedBondsFrom, organizedBondsTo
 # specific Bravais lattices
 
 # a1
+"""
+    function a1(lattice ::AbstractLattice{S,B,U}) ::Vector{Float64} where {...}
+
+Function for directly obtaining the first Bravais lattice vector of a passed `AbstractLattice` object `lattice`.
+Returns the vector as an object of type `Vector{Float64}`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+as a simple wrapper around `latticeVectors(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> a1(lattice)
+[1,0,0]
+```
+"""
 function a1(
             lattice :: L
         ) :: Vector{Float64} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -394,6 +753,23 @@ function a1(
 end
 
 # a2
+"""
+    function a2(lattice ::AbstractLattice{S,B,U}) ::Vector{Float64} where {...}
+
+Function for directly obtaining the second Bravais lattice vector of a passed `AbstractLattice` object `lattice`.
+Returns the vector as an object of type `Vector{Float64}`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+as a simple wrapper around `latticeVectors(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> a2(lattice)
+[0,1,0]
+```
+"""
 function a2(
             lattice :: L
         ) :: Vector{Float64} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
@@ -403,6 +779,23 @@ function a2(
 end
 
 # a3
+"""
+    function a3(lattice ::AbstractLattice{S,B,U}) ::Vector{Float64} where {...}
+
+Function for directly obtaining the third Bravais lattice vector of a passed `AbstractLattice` object `lattice`.
+Returns the vector as an object of type `Vector{Float64}`.
+
+This function does not have to be overwritten by a concrete type as it is implemented
+as a simple wrapper around `latticeVectors(lattice)`.
+
+
+# Examples
+
+```julia-REPL
+julia> a3(lattice)
+[0,0,1]
+```
+"""
 function a3(
             lattice :: L
         ) :: Vector{Float64} where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
