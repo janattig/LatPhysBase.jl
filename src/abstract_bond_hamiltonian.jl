@@ -28,6 +28,32 @@ abstract type AbstractBondHamiltonian{L,N} end
 export AbstractBondHamiltonian
 
 
+# DOCSTRING
+"""
+    abstract type AbstractBondHamiltonian{L,N}
+
+The abstract bond Hamiltonian type that describes all hamiltonian implementations on bonds. It is parametric in two types,
+- `L` the label type of the bonds it covers
+- `N` an integer number specifying the number of on-site degrees of freedom (e.g. number of spin components)
+
+The abstract type is equipped with a single interface function `bondterm` which
+returns the Hamiltonian matrix describing the Hamiltonian on that bond.
+The function throws an adequate error when called but not implemented for concrete types.
+See specific documentation for the function itself.
+
+
+# Examples
+
+```julia-REPL
+julia> AbstractBond{Int64,2} <: AbstractBond{L,N} where{L,N}
+true
+```
+
+"""
+AbstractBondHamiltonian
+
+
+
 
 ################################################################################
 #
@@ -61,6 +87,34 @@ end
 
 export bondterm
 
+
+
+# DOCSTRING
+"""
+    function bondterm(
+            h :: AbstractBondHamiltonian{L,NH},
+            b :: AbstractBond{L,NB}
+        ) :: Matrix{Complex} where {L,NB,NH}
+
+The abstract bond Hamiltonian interface function. Returns a matrix with complex
+entries for a passed `AbstractBond` object `b`.
+
+E.g. for Hamiltonians of the form \$\\sum_{\\langle ij\\rangle} S_{i} J_{ij} S_{j} \\dots\$, this bond hamiltonian matrix would correspond
+to the matrix \$J_{ij}\$.
+
+
+# Examples
+
+```julia-REPL
+julia> bondterm(hamiltonian, b)
+3×3 Array{Complex,2}:
+ 1.0+0.0im  0.0+0.0im  0.0+0.0im
+ 0.0+0.0im  1.0+0.0im  0.0+0.0im
+ 0.0+0.0im  0.0+0.0im  1.0+0.0im
+```
+
+"""
+bondterm
 
 
 
