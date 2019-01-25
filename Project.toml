@@ -1,6 +1,6 @@
 name = "LatPhysBase"
 uuid = "eec5c15a-e8bd-11e8-0d23-6799ca40c963"
-authors = ["Jan Attig <jattig@thp.Uni-Koeln.DE>"]
+authors = ["Jan Attig <jattig@thp.uni-koeln.de>"]
 version = "0.1.0"
 
 [extras]
