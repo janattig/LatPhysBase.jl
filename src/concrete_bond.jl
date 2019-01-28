@@ -42,6 +42,37 @@ export Bond
 
 
 
+# DOCSTRING
+"""
+    mutable struct Bond{L,N} <: AbstractBond{L,N}
+
+The concrete bond type describes the default bond implementation. It is parametric in two types,
+- `L` the type of the bond label
+- `N` an integer number specifying the number of periodic directions, it can wrap around
+
+
+The concrete type implements all interface functions of its abstract supertype which are listed below:
+- `newBond` to create a new bond object
+- `from` and `from!` to access the index of the bond origin site
+- `to` and `to!` to access the index of the bond destination site
+- `label` and `label!` to access the bond label
+- `wrap` and `wrap!` to access the bond wrap, i.e. in which copy of the unitcell / lattice is points to
+
+To create a `Bond` object, please use `newBond` as shown in the examples section.
+
+# Examples
+
+```julia-REPL
+julia> Bond{Int64,2} <: AbstractBond{L,N} where{L,N}
+true
+
+julia> b = newBond(Bond{String,2}, 1, 42, "mybond", (1,0) )
+...
+```
+"""
+Bond
+
+
 ################################################################################
 #
 #	IMPLEMENTATION OF INTERFACE FOR CONCRETE BOND TYPE
