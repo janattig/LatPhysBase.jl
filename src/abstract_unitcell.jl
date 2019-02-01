@@ -734,3 +734,108 @@ end
 
 # export the Bravais lattice interfaces
 export a1, a2, a3
+
+
+
+
+
+# Syntax for directly obtaining a connecting vector
+
+# DOCTSTRING
+"""
+    function vector(b::AbstractBond, u::AbstractUnitcell) ::Vector{Float64} where {...}
+
+Function for directly obtaining the vector that describes the bond `b` in real space.
+Unitcell object `u` is necessary to pass since it contains site and lattice vector information.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> vector(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc)
+[1.0, 0.0, 0.0]
+```
+"""
+vector
+
+
+# Fallback (error) for non-fitting pairs
+function vector(
+            bond     :: B,
+            unitcell :: U
+        ) :: Vector{Float64} where {N,L,B<:AbstractBond{L,N}, S,NU,LU,BU<:AbstractBond{LU,NU},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "unitcell and bond are not fitting"
+end
+
+# 0d
+function vector(
+            bond     :: B,
+            unitcell :: U
+        ) :: Vector{Float64} where {L,B<:AbstractBond{L,0}, S,LU,BU<:AbstractBond{LU,0},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return (
+        point(site(unitcell,to(bond))) .- point(site(unitcell,from(bond)))
+    )
+end
+
+# 1d
+function vector(
+            bond     :: B,
+            unitcell :: U
+        ) :: Vector{Float64} where {L,B<:AbstractBond{L,1}, S,LU,BU<:AbstractBond{LU,1},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return (
+        point(site(unitcell,to(bond))) .- point(site(unitcell,from(bond))) .+
+        wrap(bond)[1].*a1(unitcell)
+    )
+end
+
+# 2d
+function vector(
+            bond     :: B,
+            unitcell :: U
+        ) :: Vector{Float64} where {L,B<:AbstractBond{L,2}, S,LU,BU<:AbstractBond{LU,2},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return (
+        point(site(unitcell,to(bond))) .- point(site(unitcell,from(bond))) .+
+        wrap(bond)[1].*a1(unitcell) .+ wrap(bond)[2].*a2(unitcell)
+    )
+end
+
+# 3d
+function vector(
+            bond     :: B,
+            unitcell :: U
+        ) :: Vector{Float64} where {L,B<:AbstractBond{L,3}, S,LU,BU<:AbstractBond{LU,3},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return (
+        point(site(unitcell,to(bond))) .- point(site(unitcell,from(bond))) .+
+        wrap(bond)[1].*a1(unitcell) .+ wrap(bond)[2].*a2(unitcell) .+ wrap(bond)[3].*a3(unitcell)
+    )
+end
+
+# Nd
+function vector(
+            bond     :: B,
+            unitcell :: U
+        ) :: Vector{Float64} where {N,L,B<:AbstractBond{L,N}, S,LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # build the offset vector
+    v = point(site(unitcell,to(bond))) .- point(site(unitcell,from(bond)))
+    for i in 1:N
+        v .+= wrap(bond)[i].*latticeVectors(unitcell)[i]
+    end
+    # return the offset vector
+    return v
+end
+
+# export the function
+export vector
