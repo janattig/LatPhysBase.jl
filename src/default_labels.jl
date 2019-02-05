@@ -376,3 +376,7 @@ function flipLabel(l :: Symbol) :: Symbol
         return Symbol("-"*string(l))
     end
 end
+
+
+# export the flip label funtions
+export flipLabel
