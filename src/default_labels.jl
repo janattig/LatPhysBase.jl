@@ -9,6 +9,8 @@
 #   - x,y,z
 #   - 1,...,N
 #
+#   - flipped labels
+#
 ################################################################################
 
 
@@ -329,4 +331,48 @@ function getDefaultLabelN(
 
     # return :ln as the symbol (l as short for label)
     return Symbol(prefix, n)
+end
+
+
+
+
+
+################################################################################
+#
+#	FLIPPED LABELS
+#   (of specific types)
+#
+################################################################################
+
+
+# Any --> error
+function flipLabel(l :: L) where {L}
+    # print error
+    error("not implemented function `flipLabel` for type "*string(L))
+end
+
+# String
+function flipLabel(l :: L) :: L where {L<:AbstractString}
+    # check if it starts with a "-"
+    if l[1] == '-'
+        return L(l[2:end])
+    else
+        return L("-"*l)
+    end
+end
+
+# Numbers
+function flipLabel(l :: L) :: L where {L<:Number}
+    # multiply with -1
+    return L(l*-1)
+end
+
+# Symbol
+function flipLabel(l :: Symbol) :: Symbol
+    # check if it starts with a "-"
+    if string(l)[1] == '-'
+        return Symbol(string(l)[2:end])
+    else
+        return Symbol("-"*string(l))
+    end
 end
