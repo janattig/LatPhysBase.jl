@@ -741,7 +741,7 @@ export a1, a2, a3
 
 # Syntax for directly obtaining a connecting vector
 
-# DOCTSTRING
+# Fallback (error) for non-fitting pairs & DOCTSTRING
 """
     function vector(b::AbstractBond, u::AbstractUnitcell) ::Vector{Float64} where {...}
 
@@ -758,10 +758,6 @@ julia> vector(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc)
 [1.0, 0.0, 0.0]
 ```
 """
-vector
-
-
-# Fallback (error) for non-fitting pairs
 function vector(
             bond     :: B,
             unitcell :: U
