@@ -80,18 +80,6 @@ include("concrete_unitcell.jl")
 include("concrete_lattice.jl")
 
 
-# HAMILTONIANS
-
-# Abstract type definition
-include("abstract_bond_hamiltonian.jl")
-
-# Concrete Hamiltonian: Heisenberg
-include("concrete_bond_hamiltonian_heisenberg.jl")
-# Concrete Hamiltonian: Kitaev
-include("concrete_bond_hamiltonian_kitaev.jl")
-# Concrete Hamiltonian: Sum of two Hamiltonians
-include("concrete_bond_hamiltonian_sum.jl")
-
 
 
 # DEFAULT LABELS
