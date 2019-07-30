@@ -88,6 +88,11 @@ Bravais lattice vectors with `Int64` site labels and `Symbol` bond labels.
 AbstractLattice
 
 
+"""
+Number of spatial dimensions the lattice is embedded in.
+"""
+Base.ndims(l::AbstractLattice{S}) where S<:AbstractSite = ndims(S)
+
 
 ################################################################################
 #
