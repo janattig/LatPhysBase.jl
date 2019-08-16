@@ -60,7 +60,7 @@ AbstractSite
 """
 Number of spatial dimensions the site is embedded in.
 """
-Base.ndims(::Type{S}) where {N,S<:AbstractSite{L,D} where L} = D
+Base.ndims(::Type{S}) where {D,S<:AbstractSite{L,D} where L} = D
 
 
 
