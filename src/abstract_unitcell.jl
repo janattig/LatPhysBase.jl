@@ -380,7 +380,7 @@ function loadUnitcell(
     error(  "not implemented function 'loadUnitcell' for concrete unitcell type " * string(U) )
 end
 
-export saveLattice, loadLattice
+export saveUnitcell, loadUnitcell
 
 
 
