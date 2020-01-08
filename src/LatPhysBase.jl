@@ -44,6 +44,8 @@ module LatPhysBase
 
 # uses LinearAlgebra
 using LinearAlgebra
+# using HDF5 for saving
+using HDF5
 
 
 # import functions from Base to be overwritten

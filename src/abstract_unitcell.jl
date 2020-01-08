@@ -358,6 +358,35 @@ export bonds, bonds!
 
 
 
+function saveUnitcell(
+        uc :: UC,
+        fn :: AbstractString,
+        group :: AbstractString = "unitcell"
+        ;
+        append :: Bool = false
+    ) where {SUC<:AbstractSite,BUC<:AbstractBond,UC<:AbstractUnitcell{SUC,BUC}}
+
+    # print an error because implementation for concrete type is missing
+    error(  "not implemented function 'saveUnitcell' for concrete unitcell type " * string(U) )
+end
+
+function loadUnitcell(
+        ::Type{UC},
+        fn :: AbstractString,
+        group :: AbstractString = "unitcell"
+    ) where {SUC<:AbstractSite,BUC<:AbstractBond,UC<:AbstractUnitcell{SUC,BUC}}
+
+    # print an error because implementation for concrete type is missing
+    error(  "not implemented function 'loadUnitcell' for concrete unitcell type " * string(U) )
+end
+
+export saveLattice, loadLattice
+
+
+
+
+
+
 
 # SIMILAR FUNCTION (can be overwritten but does not have to be overwritten)
 

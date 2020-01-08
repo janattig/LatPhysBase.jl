@@ -248,6 +248,34 @@ export point, point!
 
 
 
+function saveSites(
+        ss :: Vector{S},
+        fn :: AbstractString,
+        group :: AbstractString = "sites"
+        ;
+        append :: Bool = false
+    ) where {LS,D,S<:AbstractSite{LS,D}}
+
+    # print an error because implementation for concrete type is missing
+    error("not implemented interface function 'saveSites' for site type " * string(S))
+end
+
+function loadSites(
+        ::Type{S},
+        fn :: AbstractString,
+        group :: AbstractString = "sites"
+    ) where {LS,D,S<:AbstractSite{LS,D}}
+
+    # print an error because implementation for concrete type is missing
+    error("not implemented interface function 'loadSites' for site type " * string(S))
+end
+
+export saveSites, loadSites
+
+
+
+
+
 
 # SIMILAR FUNCTION (can be overwritten but does not have to be overwritten)
 

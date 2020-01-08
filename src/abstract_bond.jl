@@ -399,6 +399,38 @@ export wrap, wrap!
 
 
 
+
+function saveBonds(
+        bs :: Vector{B},
+        fn :: AbstractString,
+        group :: AbstractString = "bonds"
+        ;
+        append :: Bool = false
+    ) where {LB,N,B<:AbstractBond{LB,N}}
+
+    # print an error because implementation for concrete type is missing
+    error("not implemented interface function 'saveBonds' for bond type " * string(B))
+end
+
+function loadBonds(
+        ::Type{B},
+        fn :: AbstractString,
+        group :: AbstractString = "bonds"
+    ) where {LB,N,B<:AbstractBond{LB,N}}
+
+    # print an error because implementation for concrete type is missing
+    error("not implemented interface function 'loadBonds' for bond type " * string(B))
+end
+
+export saveBonds, loadBonds
+
+
+
+
+
+
+
+
 # SIMILAR FUNCTION (can be overwritten but does not have to be overwritten)
 
 # without new parameters

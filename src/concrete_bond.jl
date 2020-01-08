@@ -170,3 +170,94 @@ function wrap!(
     # set the wrap
     b.wrap = w
 end
+
+
+
+function saveBonds(
+        bs :: Vector{B},
+        fn :: AbstractString,
+        group :: AbstractString = "bonds"
+        ;
+        append :: Bool = false
+    ) where {LB,N,B<:Bond{LB,N}}
+
+    # determine the mode based on if one wants to append stuff
+    if append
+        mode = "r+"
+    else
+        mode = "w"
+    end
+
+    # open the file in mode
+    h5open(fn, mode) do ucfile
+        # create the group in which the bonds are saved
+        group_bonds = g_create(ucfile, group)
+        # save the parameters
+        attrs(group_bonds)["N"] = Int64(N)
+        attrs(group_bonds)["L"] = string(LB)
+        # save all from / to values (Int64 arrays)
+        group_bonds["from"] = Int64[from(b) for b in bs]
+        group_bonds["to"]   = Int64[to(b) for b in bs]
+        # save all wraps
+        if 0 < Int64(N)
+            for n in 1:Int64(N)
+                group_bonds["wrap_$(n)"] = Int64[wrap(b)[n] for b in bs]
+            end
+        end
+        # save all labels
+        if LB <: Number
+            group_bonds["label"] = [label(b) for b in bs]
+        else
+            group_bonds["label"] = String[string(label(b)) for b in bs]
+        end
+    end
+
+    # return nothing
+    return nothing
+end
+
+function loadBonds(
+        ::Type{BI},
+        fn :: AbstractString,
+        group :: AbstractString = "bonds"
+    ) where {LBI,NI,BI<:Union{Bond{LBI,NI},Bond}}
+
+    # read attribute data
+    attr_data = h5readattr(fn, group)
+    # determine N and L based on this
+    N  = attr_data["N"]
+    LB = Meta.eval(Meta.parse(attr_data["L"]))
+
+    # load all remaining data
+    bd_from  = h5read(fn, group*"/from")
+    bd_to    = h5read(fn, group*"/to")
+    bd_label = h5read(fn, group*"/label")
+
+    if N == 0
+        bd_wrap = [Tuple([]) for i in 1:length(bd_from)]
+    else
+        bd_wrap_parts = [
+            h5read(fn, group*"/wrap_"*string(j)) for j in 1:N
+        ]
+        bd_wrap = [Tuple([bd_wrap_parts[j][i] for j in 1:N]) for i in 1:length(bd_from)]
+    end
+
+    # create list of bonds
+    bs = Bond{LB,N}[
+        newBond(Bond{LB,N}, bd_from[i], bd_to[i], LB(bd_label[i]), bd_wrap[i])
+        for i in 1:length(bd_from)
+    ]
+
+    # return nothing
+    return bs
+end
+
+
+# convinience function for standard type
+function loadBonds(
+        fn :: AbstractString,
+        group :: AbstractString = "bonds"
+    )
+
+    return loadBonds(Bond, fn, group)
+end

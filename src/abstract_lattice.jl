@@ -444,6 +444,46 @@ export unitcell, unitcell!
 
 
 
+
+
+
+
+
+function saveLattice(
+        lt :: L,
+        fn :: AbstractString,
+        group :: AbstractString = "lattice"
+        ;
+        append :: Bool = false
+    ) where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
+
+    # print an error because implementation for concrete type is missing
+    error(  "not implemented function 'saveLattice' for concrete lattice type " *
+            string(L) * " with unitcell type " * string(U)   )
+end
+
+function loadLattice(
+        ::Type{L},
+        fn :: AbstractString,
+        group :: AbstractString = "lattice"
+    ) :: L where {D,N,LS,LB,U,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},L<:AbstractLattice{S,B,U}}
+
+    # print an error because implementation for concrete type is missing
+    error(  "not implemented function 'loadLattice' for concrete lattice type " *
+            string(L) * " with unitcell type " * string(U)   )
+end
+
+export saveLattice, loadLattice
+
+
+
+
+
+
+
+
+
+
 # SIMILAR FUNCTION (can be overwritten but does not have to be overwritten)
 
 # without new parameters

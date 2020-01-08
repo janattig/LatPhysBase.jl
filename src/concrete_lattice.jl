@@ -153,3 +153,112 @@ function unitcell!(
     # set the unitcell
     lattice.unitcell = unitcell
 end
+
+
+
+
+function saveLattice(
+        lt :: L,
+        fn :: AbstractString,
+        group :: AbstractString = "lattice"
+        ;
+        append :: Bool = false
+    ) where {LS,LB,D,N,S<:AbstractSite{LS,D},B<:AbstractBond{LB,N},SU,BU,U<:AbstractUnitcell{SU,BU},L<:Lattice{S,B,U}}
+
+    # determine the mode based on if one wants to append stuff
+    if append
+        mode = "r+"
+    else
+        mode = "w"
+    end
+
+    # determine the site and bond group names
+    group_sites    = group*"/sites"
+    group_bonds    = group*"/bonds"
+    group_unitcell = group*"/unitcell"
+
+    # open the file in mode
+    h5open(fn, mode) do ltfile
+        # create the top level group
+        group_lt = g_create(ltfile, group)
+        # save into the attributes in which groups the sites and bonds are stored
+        attrs(group_lt)["sites"]    = group_sites
+        attrs(group_lt)["bonds"]    = group_bonds
+        attrs(group_lt)["unitcell"] = group_unitcell
+        # save types into the attributes
+        attrs(group_lt)["site_type"]     = string(S)
+        attrs(group_lt)["bond_type"]     = string(B)
+        attrs(group_lt)["unitcell_type"] = string(U)
+        # number of bravais lattice dimensions
+        attrs(group_lt)["N"] = Int64(N)
+        # save further attributes
+
+        # write bravais lattice vectors
+        for i in 1:N
+            group_lt["a"*string(i)] = latticeVectors(lt)[i]
+        end
+    end
+
+    # save sites, bonds and unitcell into the file
+    saveSites(sites(lt), fn, group_sites, append=true)
+    saveBonds(bonds(lt), fn, group_bonds, append=true)
+    saveUnitcell(unitcell(lt), fn, group_unitcell, append=true)
+
+    # return nothing
+    return nothing
+end
+
+function loadLattice(
+        ::Type{LT},
+        fn :: AbstractString,
+        group :: AbstractString = "lattice"
+    ) where {SLT<:AbstractSite,BLT<:AbstractBond,ULT<:AbstractUnitcell,LT<:Union{Lattice{SLT,BLT,ULT},Lattice}}
+
+    # read the attribute data
+    attr_data = h5readattr(fn, group)
+
+    # determine the bravais lattice dimension
+    N = attr_data["N"]
+
+    # determine the site and bond group names
+    group_sites    = attr_data["sites"]
+    group_bonds    = attr_data["bonds"]
+    group_unitcell = attr_data["unitcell"]
+
+    # load bravais lattice vectors
+    lattice_vectors = Vector{Float64}[]
+    for i in 1:N
+        push!(lattice_vectors, h5read(fn, group*"/a"*string(i)))
+    end
+
+    # load the sites
+    site_list = loadSites(fn, group_sites)
+    # load the bonds
+    bond_list = loadBonds(fn, group_bonds)
+    # load the unitcell
+    unitcell_loaded = loadUnitcell(fn, group_unitcell)
+
+    # determine site and bond type
+    S = typeof(site_list[1])
+    B = typeof(bond_list[1])
+    U = typeof(unitcell_loaded)
+
+    # return new unitcell
+    return newLattice(
+        Lattice{S,B,U},
+        lattice_vectors,
+        site_list,
+        bond_list,
+        unitcell_loaded
+    )
+end
+
+
+# convinience function for standard type
+function loadLattice(
+        fn :: AbstractString,
+        group :: AbstractString = "lattice"
+    )
+
+    return loadLattice(Lattice, fn, group)
+end
