@@ -1238,3 +1238,94 @@ end
 
 # export the function
 export vector_i
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Fallback (error) for non-fitting pairs & DOCTSTRING
+"""
+    function vector_k(b::AbstractBond, u::AbstractUnitcell, i::Int64) ::Vector{Float64} where {...}
+
+Function for directly obtaining the scalar product of the vector that describes the bond `b` in real space
+with a given k vector in momentum space.
+Unitcell object `u` is necessary to pass since it contains site and lattice vector information.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> vector_i(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc, 1)
+1.0
+```
+"""
+function vector_dot_k(
+            bond     :: B,
+            unitcell :: U,
+            k        :: Vector{<:Real}
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,NU,LU,BU<:AbstractBond{LU,NU},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "unitcell and bond are not fitting"
+end
+
+# 2d
+function vector_dot_k(
+            bond     :: B,
+            unitcell :: U,
+            k        :: Vector{<:Real}
+        ) :: Float64 where {L,N,B<:AbstractBond{L,N}, LS,S<:AbstractSite{LS,2},LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return vector_x(bond, unitcell)*k[1] + vector_y(bond, unitcell)*k[2]
+end
+
+# 2d
+function vector_dot_k(
+            bond     :: B,
+            unitcell :: U,
+            k        :: Vector{<:Real}
+        ) :: Float64 where {L,N,B<:AbstractBond{L,N}, LS,S<:AbstractSite{LS,3},LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return vector_x(bond, unitcell)*k[1] + vector_y(bond, unitcell)*k[2] + vector_z(bond, unitcell)*k[3]
+end
+
+# Nd
+function vector_dot_k(
+            bond     :: B,
+            unitcell :: U,
+            k        :: Vector{<:Real}
+        ) :: Float64 where {L,N,B<:AbstractBond{L,N}, LS,D,S<:AbstractSite{LS,D},LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "not implemented vector*k in D=$(D) yet"
+end
+
+# export the function
+export vector_dot_k
