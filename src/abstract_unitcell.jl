@@ -864,3 +864,377 @@ end
 
 # export the function
 export vector
+
+
+
+
+
+
+# Fallback (error) for non-fitting pairs & DOCTSTRING
+"""
+    function vector_x(b::AbstractBond, u::AbstractUnitcell) ::Vector{Float64} where {...}
+
+Function for directly obtaining the x-component of the vector that describes the bond `b` in real space.
+Unitcell object `u` is necessary to pass since it contains site and lattice vector information.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> vector_x(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc)
+1.0
+```
+"""
+function vector_x(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,NU,LU,BU<:AbstractBond{LU,NU},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "unitcell and bond are not fitting"
+end
+
+# 0d
+function vector_x(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,0}, S,LU,BU<:AbstractBond{LU,0},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[1] - point(site(unitcell,from(bond)))[1]
+end
+
+# 1d
+function vector_x(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,1}, S,LU,BU<:AbstractBond{LU,1},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[1] - point(site(unitcell,from(bond)))[1] +
+            wrap(bond)[1] * a1(unitcell)[1]
+end
+
+# 2d
+function vector_x(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,2}, S,LU,BU<:AbstractBond{LU,2},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[1] - point(site(unitcell,from(bond)))[1] +
+            wrap(bond)[1] * a1(unitcell)[1] + wrap(bond)[2] * a2(unitcell)[1]
+end
+
+# 3d
+function vector_x(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,3}, S,LU,BU<:AbstractBond{LU,3},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[1] - point(site(unitcell,from(bond)))[1] +
+            wrap(bond)[1] * a1(unitcell)[1] + wrap(bond)[2] * a2(unitcell)[1] + wrap(bond)[3] * a3(unitcell)[1]
+end
+
+# Nd
+function vector_x(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # build the offset vector
+    v = point(site(unitcell,to(bond)))[1] - point(site(unitcell,from(bond)))[1]
+    @simd for i in 1:N
+        v += wrap(bond)[i]*latticeVectors(unitcell)[i][1]
+    end
+    # return the offset vector
+    return v
+end
+
+# export the function
+export vector_x
+
+
+
+
+
+
+# Fallback (error) for non-fitting pairs & DOCTSTRING
+"""
+    function vector_y(b::AbstractBond, u::AbstractUnitcell) ::Vector{Float64} where {...}
+
+Function for directly obtaining the y-component of the vector that describes the bond `b` in real space.
+Unitcell object `u` is necessary to pass since it contains site and lattice vector information.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> vector_y(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc)
+0.0
+```
+"""
+function vector_y(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,NU,LU,BU<:AbstractBond{LU,NU},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "unitcell and bond are not fitting"
+end
+
+# 0d
+function vector_y(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,0}, S,LU,BU<:AbstractBond{LU,0},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[2] - point(site(unitcell,from(bond)))[2]
+end
+
+# 1d
+function vector_y(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,1}, S,LU,BU<:AbstractBond{LU,1},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[2] - point(site(unitcell,from(bond)))[2] +
+            wrap(bond)[1] * a1(unitcell)[2]
+end
+
+# 2d
+function vector_y(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,2}, S,LU,BU<:AbstractBond{LU,2},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[2] - point(site(unitcell,from(bond)))[2] +
+            wrap(bond)[1] * a1(unitcell)[2] + wrap(bond)[2] * a2(unitcell)[2]
+end
+
+# 3d
+function vector_y(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,3}, S,LU,BU<:AbstractBond{LU,3},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[2] - point(site(unitcell,from(bond)))[2] +
+            wrap(bond)[1] * a1(unitcell)[2] + wrap(bond)[2] * a2(unitcell)[2] + wrap(bond)[3] * a3(unitcell)[2]
+end
+
+# Nd
+function vector_y(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # build the offset vector
+    v = point(site(unitcell,to(bond)))[2] - point(site(unitcell,from(bond)))[2]
+    @simd for i in 1:N
+        v += wrap(bond)[i]*latticeVectors(unitcell)[i][2]
+    end
+    # return the offset vector
+    return v
+end
+
+# export the function
+export vector_y
+
+
+
+
+
+
+# Fallback (error) for non-fitting pairs & DOCTSTRING
+"""
+    function vector_z(b::AbstractBond, u::AbstractUnitcell) ::Vector{Float64} where {...}
+
+Function for directly obtaining the z-component of the vector that describes the bond `b` in real space.
+Unitcell object `u` is necessary to pass since it contains site and lattice vector information.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> vector_z(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc)
+0.0
+```
+"""
+function vector_z(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,NU,LU,BU<:AbstractBond{LU,NU},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "unitcell and bond are not fitting"
+end
+
+# 0d
+function vector_z(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,0}, S,LU,BU<:AbstractBond{LU,0},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[3] - point(site(unitcell,from(bond)))[3]
+end
+
+# 1d
+function vector_z(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,1}, S,LU,BU<:AbstractBond{LU,1},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[3] - point(site(unitcell,from(bond)))[3] +
+            wrap(bond)[1] * a1(unitcell)[3]
+end
+
+# 2d
+function vector_z(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,2}, S,LU,BU<:AbstractBond{LU,2},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[3] - point(site(unitcell,from(bond)))[3] +
+            wrap(bond)[1] * a1(unitcell)[3] + wrap(bond)[2] * a2(unitcell)[3]
+end
+
+# 3d
+function vector_z(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {L,B<:AbstractBond{L,3}, S,LU,BU<:AbstractBond{LU,3},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[3] - point(site(unitcell,from(bond)))[3] +
+            wrap(bond)[1] * a1(unitcell)[3] + wrap(bond)[2] * a2(unitcell)[3] + wrap(bond)[3] * a3(unitcell)[3]
+end
+
+# Nd
+function vector_z(
+            bond     :: B,
+            unitcell :: U
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # build the offset vector
+    v = point(site(unitcell,to(bond)))[3] - point(site(unitcell,from(bond)))[3]
+    @simd for i in 1:N
+        v += wrap(bond)[i]*latticeVectors(unitcell)[i][3]
+    end
+    # return the offset vector
+    return v
+end
+
+# export the function
+export vector_z
+
+
+
+
+
+
+# Fallback (error) for non-fitting pairs & DOCTSTRING
+"""
+    function vector_i(b::AbstractBond, u::AbstractUnitcell, i::Int64) ::Vector{Float64} where {...}
+
+Function for directly obtaining the i-component of the vector that describes the bond `b` in real space.
+Unitcell object `u` is necessary to pass since it contains site and lattice vector information.
+
+
+# Examples
+
+```julia-REPL
+julia> uc = newUnitcell(Unitcell{Site{String,2}, Bond{Int64,2}}, [[1,0,0], [0,1,0], [0,0,1]], sites, bonds);
+
+julia> vector_i(newBond(Bond{String,3}, 1,1, "mybond", (1,0,0)), uc, 1)
+1.0
+```
+"""
+function vector_i(
+            bond     :: B,
+            unitcell :: U,
+            i        :: Integer
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,NU,LU,BU<:AbstractBond{LU,NU},U<:AbstractUnitcell{S,BU}}
+
+    # throw an error
+    @error "unitcell and bond are not fitting"
+end
+
+# 0d
+function vector_i(
+            bond     :: B,
+            unitcell :: U,
+            i        :: Integer
+        ) :: Float64 where {L,B<:AbstractBond{L,0}, S,LU,BU<:AbstractBond{LU,0},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[i] - point(site(unitcell,from(bond)))[i]
+end
+
+# 1d
+function vector_i(
+            bond     :: B,
+            unitcell :: U,
+            i        :: Integer
+        ) :: Float64 where {L,B<:AbstractBond{L,1}, S,LU,BU<:AbstractBond{LU,1},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[i] - point(site(unitcell,from(bond)))[i] +
+            wrap(bond)[1] * a1(unitcell)[i]
+end
+
+# 2d
+function vector_i(
+            bond     :: B,
+            unitcell :: U,
+            i        :: Integer
+        ) :: Float64 where {L,B<:AbstractBond{L,2}, S,LU,BU<:AbstractBond{LU,2},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[i] - point(site(unitcell,from(bond)))[i] +
+            wrap(bond)[1] * a1(unitcell)[i] + wrap(bond)[2] * a2(unitcell)[i]
+end
+
+# 3d
+function vector_i(
+            bond     :: B,
+            unitcell :: U,
+            i        :: Integer
+        ) :: Float64 where {L,B<:AbstractBond{L,3}, S,LU,BU<:AbstractBond{LU,3},U<:AbstractUnitcell{S,BU}}
+
+    # return the offset vector
+    return point(site(unitcell,to(bond)))[i] - point(site(unitcell,from(bond)))[i] +
+            wrap(bond)[1] * a1(unitcell)[i] + wrap(bond)[2] * a2(unitcell)[i] + wrap(bond)[3] * a3(unitcell)[i]
+end
+
+# Nd
+function vector_i(
+            bond     :: B,
+            unitcell :: U,
+            i        :: Integer
+        ) :: Float64 where {N,L,B<:AbstractBond{L,N}, S,LU,BU<:AbstractBond{LU,N},U<:AbstractUnitcell{S,BU}}
+
+    # build the offset vector
+    v = point(site(unitcell,to(bond)))[i] - point(site(unitcell,from(bond)))[i]
+    @simd for j in 1:N
+        v += wrap(bond)[j]*latticeVectors(unitcell)[j][i]
+    end
+    # return the offset vector
+    return v
+end
+
+# export the function
+export vector_i
